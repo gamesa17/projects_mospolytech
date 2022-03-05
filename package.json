@@ -1,0 +1,73 @@
+{
+  "name": "language-academy",
+  "version": "1.0.0",
+  "description": "Проект: «Сайт для учителя английского языка»",
+  "main": "client/src/index.ts",
+  "engines": {
+    "node": "16.13.0"
+  },
+  "scripts": {
+    "init": "npm ci && npm run husky:install",
+    "husky:install": "husky install",
+    "client:dev": "npx webpack serve --env development",
+    "client:build": "webpack --env production",
+    "lint": "eslint --ext .ts,.tsx,.js ./ --fix --max-warnings 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/vbykovsky/language-academy.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "ts",
+    "typescript",
+    "react",
+    "reactjs",
+    "redux"
+  ],
+  "author": "Vladislav Bykovskiy <vladislav.bykovskiy@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/vbykovsky/language-academy/issues"
+  },
+  "homepage": "https://gitlab.com/vbykovsky/language-academy#readme",
+  "dependencies": {
+    "@babel/cli": "7.17.0",
+    "@babel/core": "7.17.2",
+    "@babel/preset-env": "7.16.11",
+    "@babel/preset-react": "7.16.7",
+    "@babel/preset-typescript": "7.16.7",
+    "@types/react": "17.0.39",
+    "@types/react-dom": "17.0.11",
+    "@types/react-router-dom": "5.3.3",
+    "@types/styled-components": "5.1.22",
+    "@typescript-eslint/eslint-plugin": "5.11.0",
+    "@typescript-eslint/parser": "5.11.0",
+    "babel-loader": "8.2.3",
+    "babel-plugin-styled-components": "2.0.2",
+    "circular-dependency-plugin": "5.2.2",
+    "clean-webpack-plugin": "4.0.0",
+    "dotenv": "16.0.0",
+    "eslint": "8.8.0",
+    "eslint-config-google": "0.14.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.28.0",
+    "html-webpack-plugin": "5.5.0",
+    "husky": "^7.0.4",
+    "i18next": "21.6.11",
+    "i18next-resources-to-backend": "1.0.0",
+    "lint-staged": "12.3.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-i18next": "11.15.4",
+    "react-router-dom": "6.2.1",
+    "styled-components": "5.3.3",
+    "terser-webpack-plugin": "5.3.1",
+    "typescript": "4.5.5",
+    "webpack": "5.68.0",
+    "webpack-cli": "4.9.2",
+    "webpack-dev-server": "4.7.4"
+  }
+}
