@@ -40,6 +40,7 @@ module.exports = (env) => {
         filename: `[name].bundle${productionPostfix}.js`,
         chunkFilename: `[id].chunk${productionPostfix}.js`,
         path: path.resolve(__dirname, "client", "dist"),
+        publicPath: "/"
       },
 
       resolve: {
@@ -98,15 +99,19 @@ module.exports = (env) => {
           template: "./client/public/index.html",
         }),
         new CircularDependencyPlugin({
-            exclude: /node_modules/,
-            include: /[\\/]client[\\/]src[\\/]/,
-            failOnError: true,
-            allowAsyncCycles: false,
+          exclude: /node_modules/,
+          include: /[\\/]client[\\/]src[\\/]/,
+          failOnError: true,
+          allowAsyncCycles: false,
         }),
       ],
 
       module: {
         rules: [
+          {
+            use: ["style-loader", "css-loader"],
+            test: /\.css$/,
+          },
           {
             test: /\.m?(ts|tsx)$/,
             exclude: /node_modules/,

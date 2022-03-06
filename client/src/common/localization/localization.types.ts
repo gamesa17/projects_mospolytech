@@ -1,4 +1,5 @@
 export enum LocalizationsNamespaces {
+  AUTH = "auth",
   COMMON = "common",
-  MAIN_PAGE = "main-page",
+  DASHBOARD = "dashboard",
 }

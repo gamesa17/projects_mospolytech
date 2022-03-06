@@ -1,4 +1,11 @@
 {
   "404": "404",
-  "LOADING...": "Загрузка..."
+  "LICENSE": "LearningAcademy ©2020 Created by PolytechTeam",
+  "LOADING...": "Загрузка...",
+  "USER": {
+    "TYPE": {
+      "STUDENT": "Ученик",
+      "TEACHER": "Учитель"
+    }
+  }
 }

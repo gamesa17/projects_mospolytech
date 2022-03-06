@@ -35,6 +35,6 @@ export const GlobalStyles = createGlobalStyle({
 
   "main#root": {
     width: "100%",
-    minHeight: "100%",
+    height: "100%",
   },
 });
