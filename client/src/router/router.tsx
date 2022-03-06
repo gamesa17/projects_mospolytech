@@ -1,25 +1,36 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { useCommonTranslation } from "@localization";
-import { LAZY_ROUTES, ROUTES } from "./routes";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Loader } from "@components/loader";
+import { LAZY_ROUTES, ROUTES, wrapDashboardRoute, wrapSecuredRoute } from "./routes";
+import { RouteAccessType } from "./routes/routes.types";
 
 const { DashboardWrapper, Register, Login, Profile, NotFound } = LAZY_ROUTES;
 
-export const Router: React.FC = () => {
-  const { t } = useCommonTranslation();
+export const Router: React.FC = () => (
+  <React.Suspense fallback={<Loader />}>
+    <Routes>
+      {/* Temp */}
+      <Route index element={<Navigate to={ROUTES.LOGIN} />} />
+      {/* !Temp */}
 
-  return (
-    // TODO: Add loader for pages
-    <React.Suspense fallback={t<string>("LOADING...")}>
-      <Routes>
-        <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.LOGIN} element={<Login />} />
+      {/* Authorization */}
+      <Route path={ROUTES.REGISTER} element={wrapSecuredRoute(RouteAccessType.PUBLIC, Register)} />
+      <Route path={ROUTES.LOGIN} element={wrapSecuredRoute(RouteAccessType.PUBLIC, Login)} />
 
-        <Route path={ROUTES.DASHBOARD} element={<DashboardWrapper />}>
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
-        </Route>
-      </Routes>
-    </React.Suspense>
-  );
-};
+      {/* Dashboard */}
+      <Route path={ROUTES.DASHBOARD} element={wrapDashboardRoute(DashboardWrapper)}>
+        {/* Temp */}
+        <Route index element={<Navigate to={ROUTES.PROFILE} />} />
+        {/* !Temp */}
+
+        <Route path={ROUTES.PROFILE} element={wrapDashboardRoute(Profile)} />
+
+        {/* Not Found - 404 */}
+        <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+      </Route>
+
+      {/* Not Found - 404 */}
+      <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+    </Routes>
+  </React.Suspense>
+);

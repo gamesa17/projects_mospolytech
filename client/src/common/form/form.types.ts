@@ -1,5 +1,5 @@
-import { RuleObject, RuleRender } from "antd/lib/form";
 import { TFunction } from "i18next";
+import { RuleObject, RuleRender } from "antd/lib/form";
 
 export type BaseFormItemRule =
   | {
