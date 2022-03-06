@@ -1,5 +1,6 @@
 const path = require("path");
 const dotenv = require("dotenv");
+const webpack = require("webpack");
 const getProxyConfig = require("./proxy.config");
 const TerserPlugin = require("terser-webpack-plugin");
 const htmlWebpackPlugin = require("html-webpack-plugin");
@@ -20,6 +21,10 @@ module.exports = (env) => {
 
     if (!process.env.SERVER_PORT) {
       throw new Error(`.env file doesn't include SERVER_PORT variable`);
+    }
+
+    if (!process.env.SERVER_LINK) {
+      throw new Error(`.env file doesn't include SERVER_LINK variable`);
     }
 
     const mode = env.development ? "development" : env.production ? "production" : undefined;
@@ -104,6 +109,9 @@ module.exports = (env) => {
           failOnError: true,
           allowAsyncCycles: false,
         }),
+        new webpack.DefinePlugin({
+          "process.env.SERVER_LINK": `"${process.env.SERVER_LINK}"`,
+        })
       ],
 
       module: {

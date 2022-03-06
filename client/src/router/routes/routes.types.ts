@@ -8,3 +8,8 @@ export enum RoutesNames {
   REGISTER = "REGISTER",
   LOGIN = "LOGIN",
 }
+
+export enum RouteAccessType {
+  PUBLIC = "PUBLIC",
+  PRIVATE = "PRIVATE",
+}

@@ -1,5 +1,5 @@
-import { Rule, RuleObject } from "antd/lib/form";
 import { TFunction } from "i18next";
+import { Rule, RuleObject } from "antd/lib/form";
 import { BaseFormItemRule, FormInstance } from "./form.types";
 
 export const getFormItemRules = <RuleType extends BaseFormItemRule>(t: TFunction, rules: RuleType[]): Rule[] =>
