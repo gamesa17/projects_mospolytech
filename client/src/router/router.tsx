@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { useCommonTranslation } from "@common/localization";
+import { useCommonTranslation } from "@localization";
 import { LAZY_ROUTES, ROUTES } from "./routes";
 
-const { MainPage, Page404 } = LAZY_ROUTES;
+const { DashboardWrapper, Register, Login, Profile, NotFound } = LAZY_ROUTES;
 
 export const Router: React.FC = () => {
   const { t } = useCommonTranslation();
@@ -12,8 +12,13 @@ export const Router: React.FC = () => {
     // TODO: Add loader for pages
     <React.Suspense fallback={t<string>("LOADING...")}>
       <Routes>
-        <Route index element={<MainPage />} />
-        <Route path={ROUTES.PAGE_404} element={<Page404 />} />
+        <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+
+        <Route path={ROUTES.DASHBOARD} element={<DashboardWrapper />}>
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+        </Route>
       </Routes>
     </React.Suspense>
   );
