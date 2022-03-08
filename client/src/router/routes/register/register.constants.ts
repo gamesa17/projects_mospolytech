@@ -1,9 +1,9 @@
 import { TFunction } from "i18next";
 import { FormInstance } from "@common/form";
-import { UserType } from "@ts/user/user.enums";
+import { UserRole } from "@ts/user/user.enums";
 
 export const REGISTER_FORM_INITIAL_VALUES = {
-  accountType: UserType.STUDENT,
+  role: UserRole.STUDENT,
 };
 
 export const REGISTER_FORM_USERNAME_RULES = [

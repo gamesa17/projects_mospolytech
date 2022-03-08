@@ -1,17 +1,25 @@
 import React from "react";
 import { Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { login } from "@client/store/auth";
 import { getFormItemRules } from "@common/form";
+import { useThunkDispatch } from "@client/store";
 import { useAuthTranslation } from "@localization";
-import { LoginForm, LoginFormButton, LoginFormTitle, LoginWrapper } from "./login.styles";
+import { LoginInput } from "@ts/requests/auth/login";
 import { LOGIN_FORM_PASSWORD_RULES, LOGIN_FORM_USERNAME_RULES } from "./login.constants";
+import { LoginForm, LoginFormButton, LoginFormTitle, LoginWrapper } from "./login.styles";
 
 export const Login: React.FC = () => {
   const { t } = useAuthTranslation();
 
-  const onFinish = React.useCallback((values: unknown) => {
-    console.log(values);
-  }, []);
+  const dispatchThunk = useThunkDispatch();
+
+  const onFinish = React.useCallback(
+    (values: unknown) => {
+      dispatchThunk(login(values as LoginInput));
+    },
+    [dispatchThunk]
+  );
 
   return (
     <LoginWrapper>

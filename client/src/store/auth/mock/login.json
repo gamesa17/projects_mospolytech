@@ -1,0 +1,7 @@
+{
+  "user": {
+    "username": "test",
+    "accountType": "TEACHER"
+  },
+  "accessToken": "DEV_ACCESS_TOKEN"
+}
