@@ -3,7 +3,7 @@
   "LICENSE": "LearningAcademy ©2022 Created by PolytechTeam",
   "LOADING...": "Загрузка...",
   "USER": {
-    "TYPE": {
+    "ROLE": {
       "STUDENT": "Ученик",
       "TEACHER": "Учитель"
     }

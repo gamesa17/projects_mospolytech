@@ -1,10 +1,12 @@
 import React from "react";
 import { Form, Input, Radio } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { register } from "@client/store/auth";
+import { ROLES } from "@common/roles";
 import { getFormItemRules } from "@common/form";
-import { GenericObject } from "@common/genericObject";
+import { useThunkDispatch } from "@client/store";
 import { useCommonTranslation, useAuthTranslation } from "@localization";
-import { UserType } from "@ts/user/user.enums";
+import { RegisterInput } from "@ts/requests/auth/register";
 import { RegisterForm, RegisterFormButton, RegisterFormTitle, RegisterWrapper } from "./register.styles";
 import {
   REGISTER_FORM_CONFIRM_PASSWORD_RULES,
@@ -17,11 +19,14 @@ export const Register: React.FC = () => {
   const { t } = useAuthTranslation();
   const { t: commonT } = useCommonTranslation();
 
-  const accountTypes = React.useMemo(() => GenericObject.keys(UserType), []);
+  const dispatchThunk = useThunkDispatch();
 
-  const onFinish = React.useCallback((values: unknown) => {
-    console.log(values);
-  }, []);
+  const onFinish = React.useCallback(
+    (values: unknown) => {
+      dispatchThunk(register(values as RegisterInput));
+    },
+    [dispatchThunk]
+  );
 
   return (
     <RegisterWrapper>
@@ -29,11 +34,11 @@ export const Register: React.FC = () => {
         <Form.Item>
           <RegisterFormTitle level={3}>{t("REGISTRATION")}</RegisterFormTitle>
         </Form.Item>
-        <Form.Item label="Кто вы" name="accountType">
+        <Form.Item label="Ваша роль" name="role">
           <Radio.Group buttonStyle="solid">
-            {accountTypes.map((accountType) => (
-              <Radio.Button key={accountType} value={accountType}>
-                {commonT(`USER.TYPE.${accountType}`)}
+            {ROLES.map((role) => (
+              <Radio.Button key={role} value={role}>
+                {commonT(`USER.ROLE.${role}`)}
               </Radio.Button>
             ))}
           </Radio.Group>
