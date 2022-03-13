@@ -1,2 +1,2 @@
-export * from "./localization.helpers";
+export * from "./localization.hooks";
 export * from "./localization.types";

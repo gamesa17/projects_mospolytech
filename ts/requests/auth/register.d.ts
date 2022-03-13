@@ -1,4 +1,4 @@
-import { UserRole } from "@ts/user/user.enums";
+import { UserRole } from "@ts/user";
 
 export type RegisterInput = {
   username: string;

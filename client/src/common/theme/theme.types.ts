@@ -1,6 +1,6 @@
 import "styled-components";
 
-export type Colors = "white" | "primary" | "secondary" | "dark" | "light-grey" | "dark-grey" | "text-primary";
+export type Colors = "primary" | "secondary" | "dark" | "grey" | "light-grey" | "dark-grey" | "white" | "text-primary";
 
 export type ColorPalette = {
   [T in Colors]: string;

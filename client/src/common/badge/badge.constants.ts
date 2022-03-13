@@ -1,0 +1,15 @@
+export const BADGE_COLORS = [
+  "pink",
+  "red",
+  "yellow",
+  "orange",
+  "cyan",
+  "green",
+  "blue",
+  "purple",
+  "geekblue",
+  "magenta",
+  "volcano",
+  "gold",
+  "lime",
+];

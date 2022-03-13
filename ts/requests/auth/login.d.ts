@@ -1,4 +1,4 @@
-import { User } from "@ts/user/user";
+import { User } from "@ts/user";
 
 export type LoginInput = {
   username: string;

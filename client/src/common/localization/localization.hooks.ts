@@ -6,3 +6,5 @@ export const useCommonTranslation = () => useTranslation(LocalizationsNamespaces
 export const useDashboardTranslation = () => useTranslation(LocalizationsNamespaces.DASHBOARD);
 
 export const useAuthTranslation = () => useTranslation(LocalizationsNamespaces.AUTH);
+
+export const useHomeWorkTranslation = () => useTranslation(LocalizationsNamespaces.HOMEOWRK);

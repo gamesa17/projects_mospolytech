@@ -18,6 +18,7 @@ export const LAZY_ROUTES = {
   ),
 
   Profile: React.lazy(() => import(/* webpackChunkName: "lazy~page-profile" */ "./profile")),
+  Homework: React.lazy(() => import(/* webpackChunkName: "lazy~page-homework" */ "./homework")),
 
   Register: React.lazy(() => import(/* webpackChunkName: "lazy~page-register" */ "./register")),
   Login: React.lazy(() => import(/* webpackChunkName: "lazy~page-login" */ "./login")),
