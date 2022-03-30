@@ -27,6 +27,10 @@ module.exports = (env) => {
       throw new Error(`.env file doesn't include SERVER_LINK variable`);
     }
 
+    if (!process.env.USE_MOCKS) {
+      throw new Error(`.env file doesn't include USE_MOCKS variable`);
+    }
+
     const mode = env.development ? "development" : env.production ? "production" : undefined;
     if (!mode) {
       throw new Error("Environment mode is undefined");
@@ -111,6 +115,7 @@ module.exports = (env) => {
         }),
         new webpack.DefinePlugin({
           "process.env.SERVER_LINK": `"${process.env.SERVER_LINK}"`,
+          "process.env.USE_MOCKS": process.env.USE_MOCKS === "true",
         })
       ],
 

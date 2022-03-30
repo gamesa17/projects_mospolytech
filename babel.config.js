@@ -10,5 +10,6 @@ module.exports = (api) => ({
         pure: true,
       },
     ],
+    ["@babel/transform-runtime"],
   ],
 });

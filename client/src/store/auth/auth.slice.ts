@@ -8,7 +8,13 @@ export const authSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, { payload: { accessToken } }) => {
+    builder.addCase(login.fulfilled, (state, { payload }) => {
+      if (!payload || !payload.accessToken) {
+        return;
+      }
+
+      const { accessToken } = payload;
+
       AuthService.setToken(accessToken);
 
       state.authorized = true;

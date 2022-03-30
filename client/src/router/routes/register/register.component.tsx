@@ -1,31 +1,51 @@
 import React from "react";
 import { Form, Input, Radio } from "antd";
+import { useNavigate } from "react-router-dom";
+import { StatusCodes } from "http-status-codes";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { register } from "@client/store/auth";
+
 import { ROLES } from "@common/roles";
+import { register } from "@client/store/auth";
+import { mockRequest } from "@common/request";
 import { getFormItemRules } from "@common/form";
 import { useThunkDispatch } from "@client/store";
+import { ROUTES } from "@client/router/routes/routes.constants";
 import { useCommonTranslation, useAuthTranslation } from "@localization";
 import { RegisterInput } from "@ts/requests/auth/register";
-import { RegisterForm, RegisterFormButton, RegisterFormTitle, RegisterWrapper } from "./register.styles";
+
+import { registerResponse } from "./mock";
 import {
   REGISTER_FORM_CONFIRM_PASSWORD_RULES,
   REGISTER_FORM_INITIAL_VALUES,
   REGISTER_FORM_PASSWORD_RULES,
   REGISTER_FORM_USERNAME_RULES,
 } from "./register.constants";
+import { RegisterForm, RegisterFormButton, RegisterFormTitle, RegisterWrapper } from "./register.styles";
 
 export const Register: React.FC = () => {
   const { t } = useAuthTranslation();
   const { t: commonT } = useCommonTranslation();
 
+  const navigate = useNavigate();
   const dispatchThunk = useThunkDispatch();
+
+  React.useEffect(() => {
+    if (process.env.USE_MOCKS) {
+      mockRequest.onPost("/auth/register").reply(StatusCodes.OK, registerResponse);
+    }
+  }, []);
 
   const onFinish = React.useCallback(
     (values: unknown) => {
-      dispatchThunk(register(values as RegisterInput));
+      dispatchThunk(register(values as RegisterInput))
+        .unwrap()
+        .then((data) => {
+          if (data) {
+            navigate(ROUTES.LOGIN);
+          }
+        });
     },
-    [dispatchThunk]
+    [navigate, dispatchThunk]
   );
 
   return (
