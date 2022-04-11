@@ -3,6 +3,7 @@ export enum RoutesNames {
 
   DASHBOARD = "DASHBOARD",
   HOMEWORK = "HOMEWORK",
+  GROUPS = "GROUPS",
   PROFILE = "PROFILE",
 
   REGISTER = "REGISTER",

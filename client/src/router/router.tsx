@@ -4,7 +4,7 @@ import { Loader } from "@components/loader";
 import { LAZY_ROUTES, ROUTES, wrapDashboardRoute, wrapSecuredRoute } from "./routes";
 import { RouteAccessType } from "./routes/routes.types";
 
-const { DashboardWrapper, Register, Login, Profile, Homework, NotFound } = LAZY_ROUTES;
+const { DashboardWrapper, Register, Login, Profile, Homework, Groups, NotFound } = LAZY_ROUTES;
 
 export const Router: React.FC = () => (
   <React.Suspense fallback={<Loader />}>
@@ -25,6 +25,7 @@ export const Router: React.FC = () => (
 
         <Route path={ROUTES.HOMEWORK} element={wrapDashboardRoute(Homework)} />
         <Route path={ROUTES.PROFILE} element={wrapDashboardRoute(Profile)} />
+        <Route path={ROUTES.GROUPS} element={wrapDashboardRoute(Groups)} />
 
         {/* Not Found - 404 */}
         <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />

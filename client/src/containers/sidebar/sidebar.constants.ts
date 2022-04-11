@@ -12,4 +12,9 @@ export const MENU_ITEMS: SidebarMenuItem[] = [
     to: ROUTES.HOMEWORK,
     type: SidebarMenuItemType.HOMEWORK,
   },
+  {
+    key: ROUTES.GROUPS,
+    to: ROUTES.GROUPS,
+    type: SidebarMenuItemType.GROUPS,
+  },
 ];

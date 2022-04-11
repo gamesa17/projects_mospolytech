@@ -1,6 +1,7 @@
 export enum SidebarMenuItemType {
   HOMEWORK = "HOMEWORK",
   PROFILE = "PROFILE",
+  GROUPS = "GROUPS",
 }
 
 export type SidebarMenuItem = {

@@ -3,4 +3,5 @@ export enum LocalizationsNamespaces {
   COMMON = "common",
   DASHBOARD = "dashboard",
   HOMEOWRK = "homework",
+  GROUPS = "groups",
 }
