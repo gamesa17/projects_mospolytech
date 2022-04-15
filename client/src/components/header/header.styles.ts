@@ -7,6 +7,8 @@ export const HeaderWrapper = styled(Layout.Header)(({ theme }) => ({
   justifyContent: "space-between",
 
   backgroundColor: theme.colorPalette.white,
+
+  borderBottom: `2px solid ${theme.colorPalette.lightGrey}`,
 }));
 
 export const HeaderChildren = styled.div({});

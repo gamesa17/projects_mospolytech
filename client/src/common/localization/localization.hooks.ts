@@ -7,6 +7,6 @@ export const useDashboardTranslation = () => useTranslation(LocalizationsNamespa
 
 export const useAuthTranslation = () => useTranslation(LocalizationsNamespaces.AUTH);
 
-export const useHomeWorkTranslation = () => useTranslation(LocalizationsNamespaces.HOMEOWRK);
+export const useHomeworkTranslation = () => useTranslation(LocalizationsNamespaces.HOMEWORK);
 
 export const useGroupsTranslation = () => useTranslation(LocalizationsNamespaces.GROUPS);

@@ -23,15 +23,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["prettier", "react", "@typescript-eslint"],
+  plugins: ["prettier", "react", "@typescript-eslint", "react-hooks", "import"],
   ignorePatterns: ["*.js"],
   rules: {
-    "new-cap": "off",
-    "valid-jsdoc": "off",
-    "require-jsdoc": "off",
-    "react/prop-types": "off",
-    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
@@ -41,6 +37,8 @@ module.exports = {
         varsIgnorePattern: "^_",
       },
     ],
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
     "no-unused-vars": [
       "error",
       {
@@ -49,6 +47,7 @@ module.exports = {
         varsIgnorePattern: "^_",
       },
     ],
+    "new-cap": "off",
     "prettier/prettier": [
       "error",
       {
@@ -62,5 +61,24 @@ module.exports = {
         ignoreProps: true,
       },
     ],
+    "react/prop-types": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "no-nested-ternary": "error",
+    "padding-line-between-statements": [
+        "error",
+        { "blankLine": "always", "prev": "*", "next": "return" },
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+        { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
+        { "blankLine": "always", "prev": "*", "next": ["if", "for", "switch", "while", "do", "case", "default"] },
+        { "blankLine": "always", "prev": "block-like", "next": "block-like" },
+        { "blankLine": "always", "prev": "multiline-const", "next": "multiline-const" }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
   },
 };

@@ -5,15 +5,15 @@ type Students = "Tom" | "Alex" | "John";
 
 export const STUDENTS: Record<Students, Student> = {
   Tom: {
+    ...USERS.Tom,
     id: 0,
-    user: { ...USERS.Tom },
   },
   Alex: {
+    ...USERS.Alex,
     id: 1,
-    user: { ...USERS.Alex },
   },
   John: {
+    ...USERS.John,
     id: 2,
-    user: { ...USERS.John },
   },
 };

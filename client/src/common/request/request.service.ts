@@ -15,7 +15,9 @@ export const mockRequest = process.env.USE_MOCKS
 export const tokenRequestInterceptor = $request.interceptors.request.use((config) => {
   const token = AuthService.getToken();
 
-  const useToken = !(config as CustomAxiosConfig).removeToken && token;
+  const withToken = (config as CustomAxiosConfig).withToken === undefined || (config as CustomAxiosConfig).withToken;
+
+  const useToken = withToken && token;
 
   const authorization = useToken ? { Authorization: `Bearer ${token}` } : {};
 
@@ -29,12 +31,12 @@ export const tokenRequestInterceptor = $request.interceptors.request.use((config
 });
 
 export const tokenResponseInterceptor = $request.interceptors.response.use(
-  (response) => response,
+  async (response) => response,
   async (error) => {
     const errorConfig = error.config as CustomAxiosConfig;
 
     if (error.response?.status === StatusCodes.UNAUTHORIZED && !errorConfig.isRetry) {
-      const refreshTokenConfig: CustomAxiosConfig = { removeToken: true, isRetry: true };
+      const refreshTokenConfig: CustomAxiosConfig = { withToken: false, isRetry: true };
 
       const response = await $request.post<RefreshTokenInput, AxiosResponse<RefreshTokenResponse>>(
         "/auth/refresh",
@@ -51,6 +53,6 @@ export const tokenResponseInterceptor = $request.interceptors.response.use(
       }
     }
 
-    return error;
+    throw error;
   }
 );

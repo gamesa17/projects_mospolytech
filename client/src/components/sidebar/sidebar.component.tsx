@@ -33,6 +33,7 @@ const SidebarRoot: React.FC<SidebarMenuProps> = ({ activeMenuItemKey, menuItems 
         <LogoIcon />
       </SidebarLogoWrapper>
       {hasMenu && (
+        // @ts-ignore: Unreachable type error
         <SidebarMenu theme="dark" mode="vertical" selectedKeys={[activeMenuItemKey || ""]}>
           {items.map(({ key, type, to, Icon }) => (
             <Menu.Item key={key} icon={<Icon />} onClick={onMenuItemClickFactory(to)}>

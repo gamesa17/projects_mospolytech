@@ -8,7 +8,7 @@ export const getFormItemRules = <RuleType extends BaseFormItemRule>(t: TFunction
       return (form: FormInstance) => (rule as (t: TFunction, form: FormInstance) => RuleObject)(t, form);
     }
 
-    const { messageKey, ...baseRules } = rule;
+    const { messageKey, ...baseRules } = rule as { messageKey: string };
 
     return {
       ...baseRules,

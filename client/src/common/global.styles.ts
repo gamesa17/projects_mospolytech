@@ -5,7 +5,7 @@ export const AppContainer = styled.div({
   height: "100%",
 });
 
-export const GlobalStyles = createGlobalStyle({
+export const GlobalStyles = createGlobalStyle(({ theme }) => ({
   "*": {
     margin: 0,
     padding: 0,
@@ -22,6 +22,7 @@ export const GlobalStyles = createGlobalStyle({
     width: "100%",
     minHeight: "100%",
 
+    color: theme.colorPalette.textPrimary,
     fontSize: 14,
     fontFamily: `"Rubik", Arial, sans-serif`,
   },
@@ -37,4 +38,4 @@ export const GlobalStyles = createGlobalStyle({
     width: "100%",
     height: "100%",
   },
-});
+}));

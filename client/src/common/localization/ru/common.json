@@ -1,7 +1,32 @@
 {
   "404": "404",
-  "LICENSE": "LearningAcademy ©2022 Created by PolytechTeam",
+  "ADD": "Добавить",
+  "DELETE": "Удалить",
+  "DONE": "Выполнено",
+  "EDIT": "Редактировать",
+  "LICENSE": "LearningAcademy ©2022 Создано командой Политеха",
+  "LINKS": "Ссылки",
   "LOADING...": "Загрузка...",
+  "NOT_DONE": "Не выполнено",
+  "TABLE": {
+    "FILTER_TITLE": "Фильтры",
+    "FILTER_CONFIRM": "Ок",
+    "FILTER_RESET": "Сбросить",
+    "FILTER_EMPTY_TEXT": "Нет фильтров",
+    "FILTER_CHECK_ALL": "Выбрать все",
+    "FILTER_SEARCH_PLACEHOLDER": "Найти фильтр",
+    "EMPTY_TEXT": "Нет данных",
+    "SELECT_ALL": "Выбрать текущую страницу",
+    "SELECT_INVERT": "Вернуть текущую страницу",
+    "SELECT_NONE": "Очистить",
+    "SELECTION_ALL": "Выбрать все",
+    "SORT_TITLE": "Сортировать",
+    "EXPAND": "Показать",
+    "COLLAPSE": "Скрыть",
+    "TRIGGER_DESC": "Сортировать по убыванию",
+    "TRIGGER_ASC": "Сортировать по возрастанию",
+    "CANCEL_SORT": "Отменить сортировку"
+  },
   "USER": {
     "ROLE": {
       "STUDENT": "Ученик",

@@ -9,11 +9,11 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, { payload }) => {
-      if (!payload || !payload.accessToken) {
+      if (!payload.data || !payload.data.accessToken) {
         return;
       }
 
-      const { accessToken } = payload;
+      const { accessToken } = payload.data;
 
       AuthService.setToken(accessToken);
 

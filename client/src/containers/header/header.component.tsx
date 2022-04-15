@@ -10,19 +10,19 @@ import { Header as HeaderComponent } from "@components/header";
 
 import { logoutResponse } from "./mock";
 
-export const Header: React.FC = ({ children }) => {
+export const Header: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
   const navigate = useNavigate();
   const dispatchThunk = useThunkDispatch();
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      mockRequest.onPost("/auth/register").reply(StatusCodes.OK, logoutResponse);
+      mockRequest.onPost("/auth/logout").reply(StatusCodes.OK, logoutResponse);
     }
   }, []);
 
   const onLogout = React.useCallback(
     () =>
-      dispatchThunk(logout({}))
+      dispatchThunk(logout())
         .unwrap()
         .then(() => {
           navigate(ROUTES.LOGIN, { replace: true });

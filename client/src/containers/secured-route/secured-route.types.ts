@@ -1,8 +1,10 @@
-export type CheckAuthProps = {
+import React from "react";
+
+export type CheckAuthProps = React.PropsWithChildren<{
   checkValue?: boolean;
   redirectTo: string;
-};
+}>;
 
-export type SecuredRouteProps = {
+export type SecuredRouteProps = React.PropsWithChildren<{
   redirectTo: string;
-};
+}>;

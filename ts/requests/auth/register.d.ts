@@ -7,6 +7,4 @@ export type RegisterInput = {
   role: UserRole;
 };
 
-export type RegisterResponse = {
-  message?: string;
-};
+export type RegisterResponse = {};

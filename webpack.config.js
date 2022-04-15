@@ -49,7 +49,7 @@ module.exports = (env) => {
         filename: `[name].bundle${productionPostfix}.js`,
         chunkFilename: `[id].chunk${productionPostfix}.js`,
         path: path.resolve(__dirname, "client", "dist"),
-        publicPath: "/"
+        publicPath: "/",
       },
 
       resolve: {
@@ -75,7 +75,7 @@ module.exports = (env) => {
           progress: true,
         },
         historyApiFallback: true,
-        proxy: getProxyConfig(process.env.SERVER_PORT),
+        proxy: getProxyConfig(process.env.SERVER_LINK),
       },
 
       optimization: {
@@ -116,7 +116,7 @@ module.exports = (env) => {
         new webpack.DefinePlugin({
           "process.env.SERVER_LINK": `"${process.env.SERVER_LINK}"`,
           "process.env.USE_MOCKS": process.env.USE_MOCKS === "true",
-        })
+        }),
       ],
 
       module: {

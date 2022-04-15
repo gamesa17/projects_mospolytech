@@ -48,8 +48,8 @@
     "paths": {
       "@ts": ["./ts/index"],
       "@ts/*": ["./ts/*"],
-      "@localization/*": ["./client/src/common/localization/*"],
       "@localization": ["./client/src/common/localization/index"],
+      "@localization/*": ["./client/src/common/localization/*"],
       "@common/*": ["./client/src/common/*"],
       "@components": ["./client/src/components/index"],
       "@components/*": ["./client/src/components/*"],

@@ -1,3 +1,6 @@
-module.exports = (serverPort) => ({
-  "/api": `http://localhost:${serverPort}`,
+module.exports = (serverLink) => ({
+  "/api": {
+    target: serverLink,
+    logLevel: "debug",
+  },
 });

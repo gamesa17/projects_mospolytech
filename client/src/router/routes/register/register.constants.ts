@@ -1,6 +1,7 @@
 import { TFunction } from "i18next";
 import { FormInstance } from "@common/form";
 import { UserRole } from "@ts/user/user.enums";
+import { isValidUsername } from "@common/form/validators";
 
 export const REGISTER_FORM_INITIAL_VALUES = {
   role: UserRole.STUDENT,
@@ -11,12 +12,29 @@ export const REGISTER_FORM_USERNAME_RULES = [
     required: true,
     messageKey: "EMPTY_USERNAME_ERROR",
   },
+  {
+    min: 6,
+    messageKey: "SHORT_USERNAME",
+  },
+  (t: TFunction) => ({
+    validator(_: unknown, value: string) {
+      if (isValidUsername(value)) {
+        return Promise.resolve();
+      }
+
+      return Promise.reject(new Error(t("INVALID_USERNAME")));
+    },
+  }),
 ];
 
 export const REGISTER_FORM_PASSWORD_RULES = [
   {
     required: true,
     messageKey: "EMPTY_PASSWORD_ERROR",
+  },
+  {
+    min: 6,
+    messageKey: "SHORT_PASSWORD",
   },
 ];
 

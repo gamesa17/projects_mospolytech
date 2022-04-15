@@ -1,3 +1,12 @@
 {
-  "HOMEWORK": "Домашнее задание"
+  "HOMEWORK": "Домашнее задание",
+  "HOMEWORK_TABLE": {
+    "COLUMNS_NAME": {
+      "ACTIONS": "Срок сдачи",
+      "COURSE": "Курс",
+      "DEADLINE": "Срок сдачи",
+      "ID": "ID",
+      "NAME": "Название"
+    }
+  }
 }

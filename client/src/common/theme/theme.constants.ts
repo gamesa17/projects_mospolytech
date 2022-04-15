@@ -5,12 +5,12 @@ export const COLOR_PALETTE: ColorPalette = {
   secondary: "#ff7939",
   dark: "#2b2b2b",
   grey: "#aeaeae",
-  "light-grey": "#eaeaea",
-  "dark-grey": "#6e7179",
+  lightGrey: "#eaeaea",
+  darkGrey: "#6e7179",
 
   white: "white",
 
-  "text-primary": "#2b2b2b",
+  textPrimary: "#2b2b2b",
 };
 
 export const THEME: ThemeType = {
