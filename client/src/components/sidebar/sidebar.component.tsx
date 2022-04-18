@@ -4,9 +4,9 @@ import { useNavigate } from "react-router";
 import { LogoIcon } from "@icons/logo";
 import { ROUTES } from "@client/router/routes";
 import { useDashboardTranslation } from "@localization";
+import { MENU_ITEMS_MAP } from "./sidebar.constants";
 import { SidebarLogoWrapper, SidebarMenu, SidebarWrapper } from "./sidebar.styles";
 import { SidebarMenuProps } from "./sidebar.types";
-import { MENU_ITEMS_MAP } from "./sidebar.constants";
 
 const SidebarRoot: React.FC<SidebarMenuProps> = ({ activeMenuItemKey, menuItems = [] }) => {
   const { t } = useDashboardTranslation();

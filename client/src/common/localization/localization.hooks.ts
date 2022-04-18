@@ -9,4 +9,4 @@ export const useAuthTranslation = () => useTranslation(LocalizationsNamespaces.A
 
 export const useHomeworkTranslation = () => useTranslation(LocalizationsNamespaces.HOMEWORK);
 
-export const useGroupsTranslation = () => useTranslation(LocalizationsNamespaces.GROUPS);
+export const useCoursesTranslation = () => useTranslation(LocalizationsNamespaces.COURSES);

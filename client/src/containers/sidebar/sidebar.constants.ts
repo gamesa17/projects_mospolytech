@@ -13,8 +13,8 @@ export const MENU_ITEMS: SidebarMenuItem[] = [
     type: SidebarMenuItemType.HOMEWORK,
   },
   {
-    key: ROUTES.GROUPS,
-    to: ROUTES.GROUPS,
-    type: SidebarMenuItemType.GROUPS,
+    key: ROUTES.COURSES,
+    to: ROUTES.COURSES,
+    type: SidebarMenuItemType.COURSES,
   },
 ];
