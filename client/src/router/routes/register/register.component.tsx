@@ -5,11 +5,12 @@ import { StatusCodes } from "http-status-codes";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 import { ROLES } from "@common/roles";
-import { mockRequest } from "@common/request";
+import { Request } from "@common/request";
 import { getFormItemRules } from "@common/form";
 import { ROUTES } from "@client/router/routes/routes.constants";
 import { useCommonTranslation, useAuthTranslation } from "@localization";
-import { RegisterInput } from "@ts/requests/auth/register";
+
+import { RegisterInput } from "@ts/requests";
 
 import { register } from "./register.resources";
 import {
@@ -30,7 +31,7 @@ export const Register: React.FC = () => {
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      mockRequest.onPost("/auth/register").reply(StatusCodes.OK, registerResponse);
+      Request.mock?.onPost("/auth/register").reply(StatusCodes.OK, registerResponse);
     }
   }, []);
 

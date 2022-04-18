@@ -1,7 +1,9 @@
 import { TFunction } from "i18next";
+
 import { FormInstance } from "@common/form";
-import { UserRole } from "@ts/user/user.enums";
 import { isValidUsername } from "@common/form/validators";
+
+import { UserRole } from "@ts/enums";
 
 export const REGISTER_FORM_INITIAL_VALUES = {
   role: UserRole.STUDENT,

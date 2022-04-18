@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { useCommonTranslation } from "@localization";
 
-import { Homework } from "@ts/homework";
+import { Homework } from "@ts/types";
 
 import { HomeworkDetailsWrapper } from "./homework-details.styles";
 

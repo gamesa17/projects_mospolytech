@@ -4,7 +4,7 @@ import { Table } from "antd";
 import { getTableLocale } from "@common/table";
 import { useCommonTranslation } from "@localization";
 
-import { Homework } from "@ts/homework";
+import { Homework } from "@ts/types";
 
 import { HomeworkDetails } from "./homework-details";
 import { useHomeworkTableColumns } from "./homework-table.hooks";

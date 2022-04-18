@@ -1,5 +1,5 @@
 import { USERS } from "./users";
-import { Student } from "@ts/student";
+import { Student } from "@ts/types";
 
 type Students = "Tom" | "Alex" | "John";
 

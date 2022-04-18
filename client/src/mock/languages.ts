@@ -1,4 +1,4 @@
-import { Language } from "@ts/language";
+import { Language } from "@ts/types";
 
 type Languages = "English" | "French" | "Germany";
 

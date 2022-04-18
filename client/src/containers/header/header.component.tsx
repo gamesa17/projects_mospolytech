@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { StatusCodes } from "http-status-codes";
 
-import { logout } from "@client/store/auth";
-import { mockRequest } from "@common/request";
+import { logout } from "@client/store/authorization";
+import { Request } from "@common/request";
 import { ROUTES } from "@client/router/routes";
 import { useThunkDispatch } from "@client/store";
 import { Header as HeaderComponent } from "@components/header";
@@ -16,7 +16,7 @@ export const Header: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      mockRequest.onPost("/auth/logout").reply(StatusCodes.OK, logoutResponse);
+      Request.mock?.onPost("/auth/logout").reply(StatusCodes.OK, logoutResponse);
     }
   }, []);
 

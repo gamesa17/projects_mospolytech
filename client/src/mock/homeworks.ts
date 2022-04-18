@@ -1,5 +1,6 @@
+import { Homework } from "@ts/types";
+
 import { COURSES } from "./courses";
-import { Homework } from "@ts/homework";
 
 const DAY = 1000 * 60 * 60 * 24;
 

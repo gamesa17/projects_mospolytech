@@ -1,5 +1,5 @@
-import { User } from "@ts/user";
-import { UserRole } from "@ts/user/user.enums";
+import { UserRole } from "@ts/enums";
+import { User } from "@ts/types";
 
 type Users = "Tom" | "Alex" | "John" | "Alexia";
 

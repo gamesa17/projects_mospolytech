@@ -1,4 +1,4 @@
-import { Level } from "@ts/level";
+import { Level } from "@ts/types";
 
 type Levels = "Beginner" | "Intermediate" | "Advanced";
 

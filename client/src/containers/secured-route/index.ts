@@ -1,1 +1,2 @@
-export * from "./secured-route.component";
+export * from "./check-auth";
+export * from "./check-user-role";

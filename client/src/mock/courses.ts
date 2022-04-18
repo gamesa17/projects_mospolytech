@@ -1,8 +1,9 @@
+import { Course } from "@ts/types";
+
 import { LEVELS } from "./levels";
 import { STUDENTS } from "./students";
 import { TEACHERS } from "./teachers";
 import { LANGUAGES } from "./languages";
-import { Course } from "@ts/course";
 
 type Courses = "Group01English" | "Group02French";
 

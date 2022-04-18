@@ -1,58 +1,59 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosInstance } from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { StatusCodes } from "http-status-codes";
-import { AuthService } from "@common/auth";
-import { API_CONFIG } from "./request.constants";
-import { RefreshTokenInput, RefreshTokenResponse } from "@ts/requests";
-import { CustomAxiosConfig } from "./request.types";
 
-export const $request = axios.create(API_CONFIG);
+import { AuthorizationService } from "@common/authorization";
 
-export const mockRequest = process.env.USE_MOCKS
-  ? new MockAdapter($request, { delayResponse: 500, onNoMatch: "throwException" })
-  : ({} as unknown as MockAdapter);
+export class Request {
+  private static readonly baseURL = "/api/v1/";
+  private static readonly withCredentials = true;
+  private static readonly useMocks = process.env.USE_MOCKS;
+  private static readonly mocksDelayResponse = 500;
+  private static readonly mocksOnNoMatch?: "passthrough" | "throwException" = "throwException";
 
-export const tokenRequestInterceptor = $request.interceptors.request.use((config) => {
-  const token = AuthService.getToken();
+  private static mockAdapter: MockAdapter | undefined;
+  private static axiosInstance: AxiosInstance | undefined;
 
-  const withToken = (config as CustomAxiosConfig).withToken === undefined || (config as CustomAxiosConfig).withToken;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
-  const useToken = withToken && token;
+  private static readonly initAxiosInstance = (): AxiosInstance => {
+    const axiosInstance = axios.create({
+      baseURL: Request.baseURL,
+      withCredentials: Request.withCredentials,
+    });
 
-  const authorization = useToken ? { Authorization: `Bearer ${token}` } : {};
+    AuthorizationService.axiosBearerInterceptorId = axiosInstance.interceptors.request.use(
+      AuthorizationService.axiosBearerInterceptor
+    );
 
-  return {
-    ...config,
-    headers: {
-      ...config.headers,
-      ...authorization,
-    },
+    AuthorizationService.axiosUnauthorizedInterceptorId = axiosInstance.interceptors.response.use(
+      async (response) => response,
+      AuthorizationService.axiosUnauthorizedInterceptor.bind(null, axiosInstance)
+    );
+
+    return axiosInstance;
   };
-});
 
-export const tokenResponseInterceptor = $request.interceptors.response.use(
-  async (response) => response,
-  async (error) => {
-    const errorConfig = error.config as CustomAxiosConfig;
-
-    if (error.response?.status === StatusCodes.UNAUTHORIZED && !errorConfig.isRetry) {
-      const refreshTokenConfig: CustomAxiosConfig = { withToken: false, isRetry: true };
-
-      const response = await $request.post<RefreshTokenInput, AxiosResponse<RefreshTokenResponse>>(
-        "/auth/refresh",
-        undefined,
-        refreshTokenConfig
-      );
-
-      if (response.data?.accessToken) {
-        AuthService.setToken(response.data.accessToken);
-
-        errorConfig.isRetry = true;
-
-        return $request.request(errorConfig);
-      }
+  public static get instance(): AxiosInstance {
+    if (!Request.axiosInstance) {
+      Request.axiosInstance = Request.initAxiosInstance();
     }
 
-    throw error;
+    return Request.axiosInstance;
   }
-);
+
+  public static get mock(): MockAdapter | undefined {
+    if (!Request.useMocks) {
+      return undefined;
+    }
+
+    if (!Request.mockAdapter) {
+      Request.mockAdapter = new MockAdapter(Request.instance, {
+        delayResponse: Request.mocksDelayResponse,
+        onNoMatch: Request.mocksOnNoMatch,
+      });
+    }
+
+    return Request.mockAdapter;
+  }
+}

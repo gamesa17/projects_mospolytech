@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { StatusCodes } from "http-status-codes";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
-import { login } from "@client/store/auth";
-import { mockRequest } from "@common/request";
+import { Request } from "@common/request";
 import { getFormItemRules } from "@common/form";
 import { useThunkDispatch } from "@client/store";
 import { useAuthTranslation } from "@localization";
+import { login } from "@client/store/authorization";
+
 import { ROUTES } from "@client/router/routes/routes.constants";
+
 import { LoginInput } from "@ts/requests";
 
 import { loginResponse } from "./mock";
@@ -24,7 +26,7 @@ export const Login: React.FC = () => {
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      mockRequest.onPost("/auth/login").reply(StatusCodes.OK, loginResponse);
+      Request.mock?.onPost("/auth/login").reply(StatusCodes.OK, loginResponse);
     }
   }, []);
 

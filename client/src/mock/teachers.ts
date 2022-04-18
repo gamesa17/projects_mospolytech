@@ -1,6 +1,7 @@
+import { Teacher } from "@ts/types";
+
 import { USERS } from "./users";
 import { LANGUAGES } from "./languages";
-import { Teacher } from "@ts/teacher";
 
 type Teachers = "Alexia";
 

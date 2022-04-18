@@ -1,7 +1,9 @@
 import React from "react";
 import { ColumnsType } from "antd/lib/table";
+
 import { useHomeworkTranslation } from "@localization";
-import { Homework } from "@ts/homework";
+
+import { Homework } from "@ts/types";
 
 import { HomeworkActions } from "./homework-actions";
 import { HOMEWORK_TABLE_COLUMNS } from "./homework-table.constants";

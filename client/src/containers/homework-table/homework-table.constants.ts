@@ -1,7 +1,9 @@
 import i18next from "i18next";
 import { Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { Course } from "@ts/course";
+
+import { Course } from "@ts/types";
+
 import { TableHomework } from "./homework-table.types";
 
 export const HOMEWORK_TABLE_COLUMNS: ColumnsType<TableHomework> = [
