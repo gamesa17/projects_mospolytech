@@ -12,7 +12,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(me.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user = action.payload.data;
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = undefined;

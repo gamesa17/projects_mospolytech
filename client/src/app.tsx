@@ -10,10 +10,12 @@ import { AppContainer, GlobalStyles } from "@common/global.styles";
 import { Loader } from "@components/loader";
 
 import { me } from "@client/store/user";
+import { permissions } from "@client/store/permissions";
 import { useSelector, useThunkDispatch } from "@client/store";
 import { selectAuthorized, selectCheckingAuthorized } from "@client/store/authorization";
 
 import { USERS } from "./mock/users";
+import { PERMISSIONS } from "./mock/permissions";
 
 export const App = () => {
   const dispatchThunk = useThunkDispatch();
@@ -22,12 +24,15 @@ export const App = () => {
   const checkingAuthorization = useSelector(selectCheckingAuthorized);
 
   React.useEffect(() => {
-    Request.mock?.onGet("/auth/me").reply(StatusCodes.OK, USERS.Alex);
+    Request.mock?.onGet("/me").reply(StatusCodes.OK, USERS.Alex);
+    Request.mock?.onGet("/permissions").reply(StatusCodes.OK, PERMISSIONS);
   }, []);
 
   React.useEffect(() => {
     if (authorized) {
-      dispatchThunk(me());
+      dispatchThunk(me())
+        .unwrap()
+        .then(() => dispatchThunk(permissions()).unwrap());
     }
   }, [authorized, dispatchThunk]);
 

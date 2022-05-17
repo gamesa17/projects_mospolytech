@@ -4,5 +4,5 @@ import { Request } from "@common/request";
 import { GetMeInput, GetMeResponse } from "@ts/requests";
 
 export const me = createAsyncThunk("me", () =>
-  Request.instance.get<GetMeInput, AxiosResponse<GetMeResponse>>("/auth/me").then((response) => response.data)
+  Request.instance.get<GetMeInput, AxiosResponse<GetMeResponse>>("/me").then(({ data, status }) => ({ data, status }))
 );
