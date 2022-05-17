@@ -76,6 +76,10 @@ module.exports = (env) => {
         },
         historyApiFallback: true,
         proxy: getProxyConfig(process.env.SERVER_LINK),
+        static : {
+          directory: path.resolve(__dirname, "client", "public", "assets"),
+          publicPath: "/assets"
+        },
       },
 
       optimization: {

@@ -1,8 +1,6 @@
 import { Language } from "@ts/types";
 
-type Languages = "English" | "French" | "Germany";
-
-export const LANGUAGES: Record<Languages, Language> = {
+export const LANGUAGES: Record<string, Language> = {
   English: {
     id: 0,
     name: "English",
