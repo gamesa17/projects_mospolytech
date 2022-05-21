@@ -1,8 +1,6 @@
 {
   "name": "language-academy",
-  "version": "1.0.0",
   "description": "Проект: «Сайт для учителя английского языка»",
-  "main": "client/src/index.ts",
   "engines": {
     "node": "16.13.0"
   },
@@ -18,21 +16,6 @@
     "type": "git",
     "url": "git+https://gitlab.com/vbykovsky/language-academy.git"
   },
-  "keywords": [
-    "js",
-    "javascript",
-    "ts",
-    "typescript",
-    "react",
-    "reactjs",
-    "redux"
-  ],
-  "author": "Vladislav Bykovskiy <vladislav.bykovskiy@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/vbykovsky/language-academy/issues"
-  },
-  "homepage": "https://gitlab.com/vbykovsky/language-academy#readme",
   "dependencies": {
     "@ant-design/icons": "4.7.0",
     "@babel/cli": "7.17.0",
@@ -44,14 +27,14 @@
     "@babel/runtime": "7.17.8",
     "@ladjs/country-language": "0.2.1",
     "@reduxjs/toolkit": "1.8.1",
-    "@types/react": "18.0.4",
-    "@types/react-dom": "18.0.0",
-    "@types/react-redux": "7.1.23",
+    "@types/react": "18.0.9",
+    "@types/react-dom": "18.0.4",
+    "@types/react-redux": "7.1.24",
     "@types/react-router-dom": "5.3.3",
     "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
-    "antd": "4.19.5",
+    "antd": "4.20.5",
     "axios": "0.26.1",
     "axios-mock-adapter": "1.20.0",
     "babel-loader": "8.2.3",
@@ -73,10 +56,11 @@
     "i18next": "21.6.16",
     "i18next-resources-to-backend": "1.0.0",
     "lint-staged": "12.3.3",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
     "react-i18next": "11.16.6",
-    "react-redux": "7.2.8",
+    "react-is": "18.1.0",
+    "react-redux": "8.0.1",
     "react-router-dom": "6.3.0",
     "style-loader": "3.3.1",
     "styled-components": "5.3.5",
