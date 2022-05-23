@@ -75,6 +75,7 @@ export class AuthorizationService {
 
     if (errorConfig.isRetry) {
       // Чтобы разлогинить пользователя после неудачной попытки рефреша токена
+      AuthorizationService.accessToken = undefined;
       window.location.reload();
 
       throw error;
