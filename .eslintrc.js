@@ -74,11 +74,5 @@ module.exports = {
         { "blankLine": "always", "prev": "block-like", "next": "block-like" },
         { "blankLine": "always", "prev": "multiline-const", "next": "multiline-const" }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ]
   },
 };

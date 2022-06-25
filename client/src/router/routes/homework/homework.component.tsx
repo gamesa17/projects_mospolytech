@@ -20,8 +20,8 @@ import { StatusCodes } from "http-status-codes";
 import { Homework as HomeworkType } from "@ts/types";
 
 export const Homework: React.FC = () => {
-  const { t: commonT } = useCommonTranslation();
   const { t } = useHomeworkTranslation();
+  const { t: commonT } = useCommonTranslation();
 
   const [calendarMode, setCalendarMode] = React.useState<CalendarMode>("month");
   const [calendarDate, setCalendarDate] = React.useState<moment.Moment>(moment());
@@ -30,7 +30,7 @@ export const Homework: React.FC = () => {
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      Request.mock?.onGet("/homeworks").reply(StatusCodes.OK, HOMEWORKS);
+      Request.mock?.onGet("/homeworks").reply(StatusCodes.OK, Object.values(HOMEWORKS));
     }
     getHomeworks()
       .then(({ data }) => {

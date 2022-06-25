@@ -1,9 +1,11 @@
 import React from "react";
-import { Menu } from "antd";
 import { useNavigate } from "react-router";
+import { DefaultTheme } from "styled-components";
+
 import { LogoIcon } from "@icons/logo";
 import { ROUTES } from "@client/router/routes";
 import { useDashboardTranslation } from "@localization";
+
 import { MENU_ITEMS_MAP } from "./sidebar.constants";
 import { SidebarLogoWrapper, SidebarMenu, SidebarWrapper } from "./sidebar.styles";
 import { SidebarMenuProps } from "./sidebar.types";
@@ -33,14 +35,17 @@ const SidebarRoot: React.FC<SidebarMenuProps> = ({ activeMenuItemKey, menuItems 
         <LogoIcon />
       </SidebarLogoWrapper>
       {hasMenu && (
-        // @ts-ignore: Unreachable type error
-        <SidebarMenu theme="dark" mode="vertical" selectedKeys={[activeMenuItemKey || ""]}>
-          {items.map(({ key, type, to, Icon }) => (
-            <Menu.Item key={key} icon={<Icon />} onClick={onMenuItemClickFactory(to)}>
-              {t(`MENU.${type}`)}
-            </Menu.Item>
-          ))}
-        </SidebarMenu>
+        <SidebarMenu
+          theme={"dark" as unknown as DefaultTheme}
+          mode="vertical"
+          selectedKeys={[activeMenuItemKey || ""]}
+          items={items.map(({ key, type, to, Icon }) => ({
+            key,
+            label: t(`MENU.${type}`),
+            icon: <Icon />,
+            onClick: onMenuItemClickFactory(to),
+          }))}
+        />
       )}
     </SidebarWrapper>
   );

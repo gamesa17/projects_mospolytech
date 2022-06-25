@@ -8,6 +8,9 @@
   "LINKS": "Ссылки",
   "LOADING...": "Загрузка...",
   "NOT_DONE": "Не выполнено",
+  "NO_DATA": "Нет данных",
+  "SHOW_ALL": "Показать всё",
+  "SHOW_MORE": "Показать ещё",
   "TABLE": {
     "FILTER_TITLE": "Фильтры",
     "FILTER_CONFIRM": "Ок",

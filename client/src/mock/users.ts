@@ -10,6 +10,7 @@ export const USERS: Record<Users, User> = {
     username: "tom_smit",
     firstName: "Tom",
     lastName: "Smit",
+    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
   },
   Alex: {
     id: 1,
@@ -17,6 +18,7 @@ export const USERS: Record<Users, User> = {
     username: "alex.gates.2005",
     firstName: "Alex",
     lastName: "Gates",
+    avatar: "https://randomuser.me/api/portraits/men/31.jpg",
   },
   John: {
     id: 2,

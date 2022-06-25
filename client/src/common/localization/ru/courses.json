@@ -1,3 +1,32 @@
 {
-  "COURSES": "Курсы"
+  "COURSES": "Курсы",
+  "COURSES_MODAL_FIELDS": {
+    "LANGUAGE": {
+      "ERROR": "Пожалуйста, выберите язык",
+      "LABEL": "Язык",
+      "PLACEHOLDER": "Выберите язык"
+    },
+    "LEVEL": {
+      "ERROR": "Пожалуйста, выберите уровень",
+      "LABEL": "Уровень",
+      "PLACEHOLDER": "Выберите уровень"
+    },
+    "NAME": {
+      "ERROR": "Пожалуйста, введите имя",
+      "LABEL": "Имя",
+      "PLACEHOLDER": "Выберите имя"
+    }
+  },
+  "LEVELS": {
+    "ADVANCED": "C1-C2 Продвинутый",
+    "BEGINNER": "A1-A2 Начальный",
+    "INTERMEDIATE": "B1-B2 Средний"
+  },
+  "LANGUAGES": {
+    "ENGLISH": "Английский",
+    "FRENCH": "Французский",
+    "GERMANY": "Немецкий"
+  },
+  "OPEN_COURSE_MODAL_BUTTON": "Создать/Редактировать Курс",
+  "STUDENTS": "Студенты"
 }

@@ -6,4 +6,5 @@ export interface User extends Model {
   role: UserRole;
   firstName?: string;
   lastName?: string;
+  avatar?: string;
 }
