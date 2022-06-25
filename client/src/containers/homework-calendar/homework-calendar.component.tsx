@@ -2,7 +2,6 @@ import React from "react";
 import i18next from "i18next";
 import { CalendarMode } from "antd/lib/calendar/generateCalendar";
 
-import { HOMEWORKS } from "@client/mock/homeworks";
 import { CalendarCell } from "./calendar-cell";
 
 import { CALENDAR_LOCALES } from "./homework-calendar.constants";
@@ -11,6 +10,7 @@ import { HomeworkCalendarProps } from "./homework-calendar.types";
 
 const HomeworkCalendarRoot: React.FC<HomeworkCalendarProps> = ({
   date,
+  homeworks,
   calendarMode,
   onDateChange,
   onCalendarModeChange,
@@ -25,13 +25,13 @@ const HomeworkCalendarRoot: React.FC<HomeworkCalendarProps> = ({
   }, []);
 
   const getDateHomework = React.useCallback(
-    (date: moment.Moment) => Object.values(HOMEWORKS).filter(({ deadline }) => date.isSame(deadline, "day")),
-    []
+    (date: moment.Moment) => homeworks.filter(({ deadline }) => date.isSame(deadline, "day")),
+    [homeworks]
   );
 
   const getMonthHomework = React.useCallback(
-    (date: moment.Moment) => Object.values(HOMEWORKS).filter(({ deadline }) => date.isSame(deadline, "month")),
-    []
+    (date: moment.Moment) => homeworks.filter(({ deadline }) => date.isSame(deadline, "month")),
+    [homeworks]
   );
 
   const handlePanelChange = React.useCallback(

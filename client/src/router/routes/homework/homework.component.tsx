@@ -1,10 +1,10 @@
 import React from "react";
 import moment from "moment";
-import { Layout } from "antd";
+import { Layout, message } from "antd";
 import { CalendarMode } from "antd/lib/calendar/generateCalendar";
 
+import { Request } from "@common/request";
 import { HOMEWORKS } from "@client/mock/homeworks";
-import { GenericObject } from "@common/genericObject";
 import { useCommonTranslation, useHomeworkTranslation } from "@localization";
 
 import { Header } from "@containers/header";
@@ -15,6 +15,9 @@ import { Footer } from "@components/footer";
 import { Content } from "@components/content";
 
 import { AddHomeworkButton } from "./homework.styles";
+import { getHomeworks } from "./homework.resourses";
+import { StatusCodes } from "http-status-codes";
+import { Homework as HomeworkType } from "@ts/types";
 
 export const Homework: React.FC = () => {
   const { t: commonT } = useCommonTranslation();
@@ -22,6 +25,21 @@ export const Homework: React.FC = () => {
 
   const [calendarMode, setCalendarMode] = React.useState<CalendarMode>("month");
   const [calendarDate, setCalendarDate] = React.useState<moment.Moment>(moment());
+
+  const [homeworks, setHomeworks] = React.useState<HomeworkType[]>([]);
+
+  React.useEffect(() => {
+    if (process.env.USE_MOCKS) {
+      Request.mock?.onGet("/homeworks").reply(StatusCodes.OK, HOMEWORKS);
+    }
+    getHomeworks()
+      .then(({ data }) => {
+        setHomeworks(data);
+      })
+      .catch(() => {
+        message.error(t("HOMEWORK_FETCH_ERROR"));
+      });
+  }, [t]);
 
   return (
     <Layout>
@@ -33,15 +51,12 @@ export const Homework: React.FC = () => {
       <Content>
         <HomeworkCalendar
           date={calendarDate}
+          homeworks={homeworks}
           calendarMode={calendarMode}
           onDateChange={setCalendarDate}
           onCalendarModeChange={setCalendarMode}
         />
-        <HomeworkTable
-          calendarDate={calendarDate}
-          calendarMode={calendarMode}
-          homework={GenericObject.values(HOMEWORKS)}
-        />
+        <HomeworkTable calendarDate={calendarDate} calendarMode={calendarMode} homework={homeworks} />
         <Footer />
       </Content>
     </Layout>
