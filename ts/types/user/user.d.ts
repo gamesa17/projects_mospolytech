@@ -3,8 +3,13 @@ import { UserRole } from "@ts/enums";
 
 export interface User extends Model {
   username: string;
+
   role: UserRole;
+
+  avatar?: string;
   firstName?: string;
   lastName?: string;
-  avatar?: string;
+
+  city?: string;
+  phone?: string;
 }

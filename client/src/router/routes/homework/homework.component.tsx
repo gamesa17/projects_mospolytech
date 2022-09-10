@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { Layout, message } from "antd";
+import { Layout } from "antd";
 import { CalendarMode } from "antd/lib/calendar/generateCalendar";
 
 import { Request } from "@common/request";
@@ -32,13 +32,10 @@ export const Homework: React.FC = () => {
     if (process.env.USE_MOCKS) {
       Request.mock?.onGet("/homeworks").reply(StatusCodes.OK, Object.values(HOMEWORKS));
     }
-    getHomeworks()
-      .then(({ data }) => {
-        setHomeworks(data);
-      })
-      .catch(() => {
-        message.error(t("HOMEWORK_FETCH_ERROR"));
-      });
+
+    getHomeworks().then(({ data }) => {
+      setHomeworks(data);
+    });
   }, [t]);
 
   return (

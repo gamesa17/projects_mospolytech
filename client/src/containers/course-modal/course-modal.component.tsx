@@ -30,9 +30,15 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
   const maxStudents = courseStudents.length;
 
   React.useEffect(() => {
-    Request.mock?.onGet("/levels").reply(StatusCodes.OK, Object.values(LEVELS));
+    if (process.env.USE_MOCKS) {
+      Request.mock
+        ?.onGet("/levels")
+        .reply(StatusCodes.OK, Object.values(LEVELS))
+        .onGet("/languages")
+        .reply(StatusCodes.OK, Object.values(LANGUAGES));
+    }
+
     getLevels().then((response) => setLevels(response.data));
-    Request.mock?.onGet("/languages").reply(StatusCodes.OK, Object.values(LANGUAGES));
     getLanguages().then((response) => setLanguages(response.data));
   }, []);
 
@@ -89,7 +95,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
           <Select showSearch placeholder={t("COURSES_MODAL_FIELDS.LEVEL.PLACEHOLDER")} optionFilterProp="children">
             {levels.map(({ name }) => (
               <Select.Option key={name} value={name}>
-                {t(`LEVELS.${name.toLocaleUpperCase()}`)}
+                {t(`LEVELS.${name.replaceAll(" ", "_").toLocaleUpperCase()}`)}
               </Select.Option>
             ))}
           </Select>

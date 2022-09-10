@@ -18,9 +18,12 @@
     }
   },
   "LEVELS": {
-    "ADVANCED": "C1-C2 Продвинутый",
-    "BEGINNER": "A1-A2 Начальный",
-    "INTERMEDIATE": "B1-B2 Средний"
+    "ADVANCED": "C1 Продвинутый",
+    "BEGINNER": "A0-A1 Начальный",
+    "INTERMEDIATE": "B1 Средний",
+    "PRE_INTERMEDIATE": "A2 Ниже Средний",
+    "PROFICIENT": "C2 Опытный",
+    "UPPER_INTERMEDIATE": "B2 Выше Средний"
   },
   "LANGUAGES": {
     "ENGLISH": "Английский",

@@ -8,8 +8,6 @@ import { getShortCountryNameByLanguage } from "@common/languages";
 import { CourseCardProps } from "./course-card.types";
 import { CourseCardWrapper } from "./course-card.styles";
 
-const { Meta } = Card;
-
 const CourseCardRoot: React.FC<CourseCardProps> = ({
   name,
   language: { name: languageName },
@@ -27,7 +25,7 @@ const CourseCardRoot: React.FC<CourseCardProps> = ({
       actions={[<EditOutlined key="edit" />, <DeleteOutlined key="delete" />]}
       bordered
     >
-      <Meta title={name} description={levelName} />
+      <Card.Meta title={name} description={levelName} />
     </CourseCardWrapper>
   );
 };
