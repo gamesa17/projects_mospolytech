@@ -18,5 +18,5 @@ python_version = "3.10"
 
 [scripts]
 init = "pipenv install"
-dev = "python manage.py runserver"
+dev = "dotenv -e ../.env -- bash -c 'python manage.py runserver $SERVER_PORT'"
 lint = "flake8 ."
