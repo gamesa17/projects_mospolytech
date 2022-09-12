@@ -1,6 +1,18 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx lint-staged
+# client
+echo -e "\n[pre-commit]: client\n"
+cd ./client
+npm run lint-staged
 npm run lint
 npm run check-types
+cd ..
+# !client
+
+# server
+echo -e "\n[pre-commit]: server\n"
+cd ./server
+pipenv run lint
+cd ..
+# !server

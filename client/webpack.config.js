@@ -9,7 +9,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = (env) => {
   try {
-    const dotenvConfig = dotenv.config();
+    const dotenvConfig = dotenv.config({ path: "../.env" });
 
     if (dotenvConfig.error) {
       throw new Error(`Error while parsing .env config: ${dotenvConfig.error}`);
@@ -44,11 +44,11 @@ module.exports = (env) => {
     return {
       mode,
 
-      entry: "./client/src/index",
+      entry: "./src/index",
       output: {
         filename: `[name].bundle${productionPostfix}.js`,
         chunkFilename: `[id].chunk${productionPostfix}.js`,
-        path: path.resolve(__dirname, "client", "dist"),
+        path: path.resolve(__dirname, "dist"),
         publicPath: "/",
       },
 
@@ -56,12 +56,12 @@ module.exports = (env) => {
         extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: {
           "@ts": path.resolve(__dirname, "ts"),
-          "@client": path.resolve(__dirname, "client", "src"),
-          "@common": path.resolve(__dirname, "client", "src", "common"),
-          "@localization": path.resolve(__dirname, "client", "src", "common", "localization"),
-          "@components": path.resolve(__dirname, "client", "src", "components"),
-          "@containers": path.resolve(__dirname, "client", "src", "containers"),
-          "@icons": path.resolve(__dirname, "client", "src", "icons"),
+          "@client": path.resolve(__dirname, "src"),
+          "@common": path.resolve(__dirname, "src", "common"),
+          "@localization": path.resolve(__dirname, "src", "common", "localization"),
+          "@components": path.resolve(__dirname, "src", "components"),
+          "@containers": path.resolve(__dirname, "src", "containers"),
+          "@icons": path.resolve(__dirname, "src", "icons"),
         },
       },
 
@@ -77,7 +77,7 @@ module.exports = (env) => {
         historyApiFallback: true,
         proxy: getProxyConfig(process.env.SERVER_LINK),
         static : {
-          directory: path.resolve(__dirname, "client", "public", "assets"),
+          directory: path.resolve(__dirname, "public", "assets"),
           publicPath: "/assets"
         },
       },
@@ -109,11 +109,11 @@ module.exports = (env) => {
       plugins: [
         new CleanWebpackPlugin(),
         new htmlWebpackPlugin({
-          template: "./client/public/index.html",
+          template: "./public/index.html",
         }),
         new CircularDependencyPlugin({
           exclude: /node_modules/,
-          include: /[\\/]client[\\/]src[\\/]/,
+          include: /[\\/]src[\\/]/,
           failOnError: true,
           allowAsyncCycles: false,
         }),

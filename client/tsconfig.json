@@ -48,16 +48,16 @@
     "paths": {
       "@ts": ["./ts/index"],
       "@ts/*": ["./ts/*"],
-      "@localization": ["./client/src/common/localization/index"],
-      "@localization/*": ["./client/src/common/localization/*"],
-      "@common/*": ["./client/src/common/*"],
-      "@components": ["./client/src/components/index"],
-      "@components/*": ["./client/src/components/*"],
-      "@containers": ["./client/src/containers/index"],
-      "@containers/*": ["./client/src/containers/*"],
-      "@icons": ["./client/src/icons/index"],
-      "@icons/*": ["./client/src/icons/*"],
-      "@client/*": ["./client/src/*"]
+      "@localization": ["./src/common/localization/index"],
+      "@localization/*": ["./src/common/localization/*"],
+      "@common/*": ["./src/common/*"],
+      "@components": ["./src/components/index"],
+      "@components/*": ["./src/components/*"],
+      "@containers": ["./src/containers/index"],
+      "@containers/*": ["./src/containers/*"],
+      "@icons": ["./src/icons/index"],
+      "@icons/*": ["./src/icons/*"],
+      "@client/*": ["./src/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "typeRoots": [],                             /* List of folders to include type definitions from. */
@@ -83,5 +83,5 @@
 
     "resolveJsonModule": true
   },
-  "include": ["./client/src", "./server", "./ts"]
+  "include": ["./src", "./ts"]
 }

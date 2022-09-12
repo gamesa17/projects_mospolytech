@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+pillow = "*"
+wemake-python-styleguide = "*"
+flake8-bandit = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
+
+[scripts]
+init = "pipenv install"
+dev = "python manage.py runserver"
+lint = "flake8 ."

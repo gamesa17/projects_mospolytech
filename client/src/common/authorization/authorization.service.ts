@@ -1,10 +1,12 @@
-import { RefreshTokenInput, RefreshTokenResponse } from "@ts/requests";
-import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { StatusCodes } from "http-status-codes";
+import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import { RefreshTokenInput, RefreshTokenResponse } from "@ts/requests";
 import { AuthorizationAxiosConfig } from "./authorization.types";
 
 export class AuthorizationService {
   private static readonly LOCAL_STORAGE_ACCESS_TOKEN_KEY = "accessToken";
+
+  private static refreshTokenPromise: Promise<string | undefined> | undefined;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
@@ -19,8 +21,12 @@ export class AuthorizationService {
 
       AuthorizationService.accessToken = response.data.accessToken;
 
+      AuthorizationService.refreshTokenPromise = undefined;
+
       return AuthorizationService.accessToken;
     } catch (err) {
+      AuthorizationService.refreshTokenPromise = undefined;
+
       return undefined;
     }
   };
@@ -81,7 +87,10 @@ export class AuthorizationService {
       throw error;
     }
 
-    const newAccessToken = await AuthorizationService.refreshToken(axiosInstance);
+    AuthorizationService.refreshTokenPromise =
+      AuthorizationService.refreshTokenPromise || AuthorizationService.refreshToken(axiosInstance);
+
+    const newAccessToken = await AuthorizationService.refreshTokenPromise;
 
     if (!newAccessToken) {
       throw error;

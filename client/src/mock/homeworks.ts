@@ -11,7 +11,7 @@ export const HOMEWORKS: Record<Homeworks, Homework> = {
     id: 0,
     name: "Homework 1",
     description: "Description 1",
-    links: ["google.com", "yandex.ru"],
+    link: "google.com",
     course: COURSES.Group01English,
     created: Date.now(),
     deadline: Date.now() + DAY * 7,

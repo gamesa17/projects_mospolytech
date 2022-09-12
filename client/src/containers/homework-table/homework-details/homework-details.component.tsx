@@ -1,34 +1,29 @@
 import React from "react";
+import sanitize from "sanitize-html";
 import { Typography } from "antd";
-import { Link } from "react-router-dom";
-
-import { useCommonTranslation } from "@localization";
 
 import { Homework } from "@ts/types";
 
-import { HomeworkDetailsWrapper } from "./homework-details.styles";
+import { HomeworkDetailsLinks, HomeworkDetailsWrapper } from "./homework-details.styles";
 
-const HomeworkDetailsRoot: React.FC<Homework> = ({ name, description, links }) => {
-  const { t } = useCommonTranslation();
-
-  return (
-    <HomeworkDetailsWrapper>
-      <Typography.Title level={3}>{name}</Typography.Title>
-      <Typography.Text>{description}</Typography.Text>
-      {links && (
-        <>
-          <Typography.Title level={5}>{t("LINKS")}</Typography.Title>
-          <ul>
-            {links.map((link, index) => (
-              <li key={index}>
-                <Link to={link}>{link}</Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </HomeworkDetailsWrapper>
-  );
-};
+const HomeworkDetailsRoot: React.FC<Homework> = ({ name, description, link }) => (
+  <HomeworkDetailsWrapper>
+    <Typography.Title level={3}>{name}</Typography.Title>
+    {description && (
+      <Typography.Text>
+        <span dangerouslySetInnerHTML={{ __html: sanitize(description) }}></span>
+      </Typography.Text>
+    )}
+    {link && (
+      <HomeworkDetailsLinks>
+        <li>
+          <a href={link} target="_blank" rel="noreferrer nofollow">
+            {link}
+          </a>
+        </li>
+      </HomeworkDetailsLinks>
+    )}
+  </HomeworkDetailsWrapper>
+);
 
 export const HomeworkDetails = React.memo(HomeworkDetailsRoot);

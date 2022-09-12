@@ -4,7 +4,7 @@ export interface Homework extends Model {
   name: string;
   description?: string;
   course: Course;
-  links?: string[];
+  link?: string;
   onEveryLesson?: boolean;
   created: number;
   deadline: number;
