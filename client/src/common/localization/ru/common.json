@@ -1,5 +1,6 @@
 {
   "404": "404",
+  "ARE_YOU_SURE_YOU_WANT_TO_DELETE_COURSE": "Вы точно хотите удалить курс {{name}}?",
   "ADD": "Добавить",
   "CITY": "Город",
   "DELETE": "Удалить",
@@ -10,12 +11,13 @@
   "LICENSE": "LearningAcademy ©2022 Создано командой Политеха",
   "LINKS": "Ссылки",
   "LOADING...": "Загрузка...",
+  "NO": "Нет",
   "NOT_DONE": "Не выполнено",
   "NO_DATA": "Нет данных",
   "PHONE": "Телефон",
   "SAVE": "Сохранить",
   "SHOW_ALL": "Показать всё",
-  "SHOW_MORE": "Показать ещё",
+  "SHOW_MORE": "Показать ещё({{more}})",
   "TABLE": {
     "FILTER_TITLE": "Фильтры",
     "FILTER_CONFIRM": "Ок",

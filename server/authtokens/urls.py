@@ -1,17 +1,14 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenVerifyView
 
-from authtokens.views import (DeleteAccountView, GetUsersView, LoginView,
-                              LogoutView, MeView, SignupView, TokenRefreshView)
+from authtokens.views import DeleteAccountView, LoginView, LogoutView, SignupView, TokenRefreshView
 
 urlpatterns = [
-    path("auth/delete", DeleteAccountView.as_view()),
-    path("auth/getusers", GetUsersView.as_view()),
-    path("auth/token/verify", TokenVerifyView.as_view(), name="token_verify"),
+    path("/delete", DeleteAccountView.as_view()),
+    path("/token/verify", TokenVerifyView.as_view(), name="token_verify"),
 
-    path("auth/register", SignupView.as_view()),
-    path("auth/login", LoginView.as_view()),
-    path("auth/logout", LogoutView.as_view()),
-    path("auth/refresh", TokenRefreshView.as_view(), name="token_refresh"),
-    path("me", MeView.as_view()),
+    path("/register", SignupView.as_view()),
+    path("/login", LoginView.as_view()),
+    path("/logout", LogoutView.as_view()),
+    path("/refresh", TokenRefreshView.as_view(), name="token_refresh"),
 ]

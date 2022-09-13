@@ -26,7 +26,9 @@ const HomeworkTableRoot: React.FC<HomeworkTableProps> = ({ homework, calendarDat
   const columns = useHomeworkTableColumns(onEditHomework, onDeleteHomework);
 
   const tableData = React.useMemo(() => {
-    const data = homework.map((hw) => ({ ...hw, key: `${hw.id}-${calendarMode}-${+calendarDate}` }));
+    const data = homework
+      .sort((hw1, hw2) => +new Date(hw1.deadline) - +new Date(hw2.deadline))
+      .map((hw) => ({ ...hw, key: `${hw.id}-${calendarMode}-${+calendarDate}` }));
 
     if (calendarMode === "month") {
       return data.filter(({ deadline }) => calendarDate.isSame(deadline, "day"));

@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 
 from authtokens.jwt_tokens import JWTTokens
-from authtokens.serializers import UserSerializer
 from authtokens.validators import RequestValidator
 from users.models import Student, Teacher, UserProfile, UserRole
 from users.validators import UserValidators
@@ -160,48 +159,3 @@ class DeleteAccountView(APIView):
 
         except Exception as error:
             return Response({"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-class MeView(APIView):
-    @staticmethod
-    def get(request):
-        try:
-            user = request.user
-
-            if not user:
-                Response(data={"error": "Невалидный пользователь"}, status=status.HTTP_400_BAD_REQUEST)
-
-            userProfile = UserProfile.objects.get(user=user)
-
-            if not userProfile:
-                Response(data={"error": "Невалидный пользователь"}, status=status.HTTP_400_BAD_REQUEST)
-
-            return Response(
-                data={
-                    "id": user.id,
-                    "username": user.username,
-                    "role": userProfile.role,
-                    "firstName": userProfile.firstName,
-                    "lastName": userProfile.lastName,
-                },
-                status=status.HTTP_200_OK,
-            )
-
-        except Exception as error:
-            return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-class GetUsersView(APIView):
-    permission_classes = (permissions.AllowAny, )
-
-    @staticmethod
-    def get(format=None):
-        try:
-            users = User.objects.all()
-
-            users = UserSerializer(users, many=True, format=format)
-
-            return Response(data=users.data, status=status.HTTP_200_OK)
-
-        except Exception as error:
-            return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -5,12 +5,18 @@ import { Form, Button, Input } from "antd";
 import { ProfileFormProps } from "./profile-form.types";
 import { useCommonTranslation } from "@localization";
 import { ProfileFormWrapper } from "./profile-form.styles";
+import { useSelector } from "@client/store";
+import { selectCapabilities } from "@client/store/permissions";
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({
   initialValues: { firstName = "", lastName = "", city = "", phone = "" } = {},
   onSubmit,
 }) => {
   const { t } = useCommonTranslation();
+
+  const { canUpdateUserProfileSpecificUsers } = useSelector(selectCapabilities);
+
+  const isReadOnly = !canUpdateUserProfileSpecificUsers;
 
   const [phoneInput, setPhoneInput] = React.useState("");
 
@@ -21,7 +27,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
   return (
     <ProfileFormWrapper>
-      <Form labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} onFinish={onSubmit}>
+      <Form labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} disabled={isReadOnly} onFinish={onSubmit}>
         <Form.Item name="firstName" label={t("FIRST_NAME")} initialValue={firstName}>
           <Input />
         </Form.Item>
@@ -36,11 +42,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
         <Form.Item name="city" label={t("CITY")} initialValue={city}>
           <Input />
         </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {t("SAVE")}
-          </Button>
-        </Form.Item>
+        {canUpdateUserProfileSpecificUsers && (
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              {t("SAVE")}
+            </Button>
+          </Form.Item>
+        )}
       </Form>
     </ProfileFormWrapper>
   );

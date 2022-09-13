@@ -8,6 +8,6 @@ export const ListHeader = styled.div({
 });
 
 export const LoadMoreButton = styled(Button)({
-  margin: "0 auto",
+  margin: "15px auto 0",
   display: "block",
 });

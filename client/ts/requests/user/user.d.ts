@@ -14,3 +14,11 @@ export type UpdateUserInput = {
 };
 
 export type UpdateUserResponse = User;
+
+export type GetUsersInput = {
+  courseId: number;
+  skip: number;
+  limit: number;
+};
+
+export type GetUsersResponse = User[];

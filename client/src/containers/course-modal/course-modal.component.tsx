@@ -11,21 +11,34 @@ import { useCommonTranslation, useCoursesTranslation } from "@localization";
 
 import { StudentInfo } from "./student-info";
 
-import { getLanguages, getLevels } from "./course-model.resources";
-import { COURSE_MODAL_CONFIRM_PROPS, COURSE_MODAL_ID } from "./course-modal.constants";
+import { getLanguages, getLevels, getStudents } from "./course-model.resources";
+import {
+  COURSE_MODAL_CONFIRM_PROPS,
+  COURSE_MODAL_ID,
+  COURSE_MODAL_LOAD_STUDENTS_LIMIT,
+} from "./course-modal.constants";
 import { ListHeader, LoadMoreButton } from "./course-model.styles";
-import { CourseModalProps, StudentExtended } from "./course-modal.types";
+import { CourseModalFormType, CourseModalProps, StudentExtended } from "./course-modal.types";
 
 import { LEVELS } from "@client/mock/levels";
 import { LANGUAGES } from "@client/mock/languages";
+import { USERS } from "@client/mock/users";
 
-export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: courseStudents }, isOpen, onClose }) => {
+export const CourseModal: React.FC<CourseModalProps> = ({
+  course: { id, name, level, language, students: courseStudents = [] } = {},
+  isOpen,
+  onClose,
+}) => {
   const { t } = useCoursesTranslation();
   const { t: commonT } = useCommonTranslation();
 
+  const [form] = Form.useForm<CourseModalFormType>();
+
   const [levels, setLevels] = React.useState<Level[]>([]);
   const [languages, setLanguages] = React.useState<Language[]>([]);
+  const [studentsSkip, setStudentsSkip] = React.useState<number>(0);
   const [students, setStudents] = React.useState<StudentExtended[]>([]);
+  const [loadedStudents, setLoadedStudents] = React.useState<number>(0);
 
   const maxStudents = courseStudents.length;
 
@@ -42,9 +55,32 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
     getLanguages().then((response) => setLanguages(response.data));
   }, []);
 
-  const removeStudent = React.useCallback((studentId: number) => {
-    setStudents((prevStudents) => prevStudents.filter((student) => student.id !== studentId));
-  }, []);
+  React.useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    if (process.env.USE_MOCKS) {
+      Request.mock?.onGet(/^\/users\/profiles/).reply(StatusCodes.OK, Object.values(USERS));
+    }
+
+    getStudents(id, studentsSkip, COURSE_MODAL_LOAD_STUDENTS_LIMIT).then(({ data }) => {
+      setStudents((prevStudents) => [...prevStudents, ...data]);
+      setLoadedStudents((prevLoaded) => prevLoaded + data.length);
+    });
+  }, [id, studentsSkip]);
+
+  React.useEffect(() => {
+    form.resetFields();
+    setStudents([]);
+    setStudentsSkip(0);
+    setLoadedStudents(0);
+  }, [isOpen, id, form]);
+
+  const removeStudent = React.useCallback(
+    (studentId: number) => setStudents((prevStudents) => prevStudents.filter((student) => student.id !== studentId)),
+    []
+  );
 
   const addStudent = React.useCallback(
     () =>
@@ -57,19 +93,26 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
     []
   );
 
-  const loadMoreStudents = React.useCallback(() => {
-    // TODO: Когда появится backend-возможность постепенно студентов получать, функцию loadMoreStudents надо переписать
-  }, []);
+  const loadMoreStudents = React.useCallback(
+    () => setStudentsSkip((prevSkip) => prevSkip + COURSE_MODAL_LOAD_STUDENTS_LIMIT),
+    []
+  );
 
   return (
     <Modal
-      destroyOnClose
       visible={isOpen}
       title={t("OPEN_COURSE_MODAL_BUTTON")}
       okButtonProps={COURSE_MODAL_CONFIRM_PROPS}
       onCancel={onClose}
     >
-      <Form id={COURSE_MODAL_ID} labelCol={{ span: 5 }} wrapperCol={{ span: 20 }}>
+      <Form
+        id={COURSE_MODAL_ID}
+        form={form}
+        labelCol={{ span: 5 }}
+        wrapperCol={{ span: 20 }}
+        initialValues={{ name, level: level?.id, language: language?.id }}
+        onFinish={console.log}
+      >
         <Form.Item
           label={t("COURSES_MODAL_FIELDS.NAME.LABEL")}
           name="name"
@@ -93,8 +136,8 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
           ]}
         >
           <Select showSearch placeholder={t("COURSES_MODAL_FIELDS.LEVEL.PLACEHOLDER")} optionFilterProp="children">
-            {levels.map(({ name }) => (
-              <Select.Option key={name} value={name}>
+            {levels.map(({ id, name }) => (
+              <Select.Option key={name} value={id}>
                 {t(`LEVELS.${name.replaceAll(" ", "_").toLocaleUpperCase()}`)}
               </Select.Option>
             ))}
@@ -111,8 +154,8 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
           ]}
         >
           <Select showSearch placeholder={t("COURSES_MODAL_FIELDS.LANGUAGE.PLACEHOLDER")} optionFilterProp="children">
-            {languages.map(({ name }) => (
-              <Select.Option key={name} value={name}>
+            {languages.map(({ id, name }) => (
+              <Select.Option key={name} value={id}>
                 {t(`LANGUAGES.${name.toLocaleUpperCase()}`)}
               </Select.Option>
             ))}
@@ -132,8 +175,10 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course: { students: co
           </ListHeader>
         }
         loadMore={
-          students.length < maxStudents && (
-            <LoadMoreButton onClick={loadMoreStudents}>{commonT("SHOW_MORE")}</LoadMoreButton>
+          loadedStudents < maxStudents && (
+            <LoadMoreButton onClick={loadMoreStudents}>
+              {commonT("SHOW_MORE", { more: maxStudents - loadedStudents })}
+            </LoadMoreButton>
           )
         }
         renderItem={(student) => (

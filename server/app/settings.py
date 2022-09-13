@@ -10,6 +10,7 @@ SECRET_KEY = "django-insecure-ad423wlnu2qj=q(bc#69*1&!5xatj*h4*c^f9o3y661a3crx6t
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = []
+APPEND_SLASH = False
 ROOT_URLCONF = "app.urls"
 WSGI_APPLICATION = "app.wsgi.application"
 
@@ -28,7 +29,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 USE_TZ = True
 USE_I18N = True
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 LANGUAGE_CODE = "en-us"
 
 # Rest framework

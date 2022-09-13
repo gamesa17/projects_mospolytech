@@ -1,7 +1,7 @@
 from django.urls import path
 
-from levels.views import LevelView
+from levels.views import LevelsView
 
 urlpatterns = [
-    path("levels", LevelView.as_view()),
+    path("", LevelsView.as_view()),
 ]

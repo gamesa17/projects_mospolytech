@@ -10,10 +10,10 @@ from users.models import Teacher
 class LanguageTeachersView(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def get(self):
+    @staticmethod
+    def get(request):
         try:
-
-            user = self.request.user
+            user = request.user
 
             user = Teacher.objects.get(user=user)
 

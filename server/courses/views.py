@@ -36,7 +36,7 @@ class CoursesView(APIView):
                 courses = courses[int(skip):]
 
             if limit:
-                courses = courses[:int(limit)]
+                courses = courses[:int(skip) + int(limit)]
 
             courses = CourseInfoSerializer(courses, many=True)
 

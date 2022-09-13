@@ -6,13 +6,12 @@ from levels.models import Level
 from levels.serializers import LevelSerializer
 
 
-class LevelView(APIView):
-
+class LevelsView(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def get(self):
+    @staticmethod
+    def get(request):
         try:
-
             levels = Level.objects.all()
 
             levels = LevelSerializer(levels, many=True)

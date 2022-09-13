@@ -1,3 +1,4 @@
+export * from "./capabilities";
 export * from "./course";
 export * from "./homework";
 export * from "./language";

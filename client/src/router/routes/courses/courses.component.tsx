@@ -2,11 +2,14 @@ import React from "react";
 import { Layout } from "antd";
 import { StatusCodes } from "http-status-codes";
 
-import { Course as CoursesType } from "@ts/types";
+import { CourseDto } from "@ts/types";
 
 import { useCoursesTranslation, useCommonTranslation } from "@localization";
 
 import { Request } from "@common/request";
+
+import { useSelector } from "@client/store";
+import { selectCapabilities } from "@client/store/permissions";
 
 import { Header } from "@containers/header";
 import { CourseModal } from "@containers/course-modal";
@@ -24,32 +27,63 @@ export const Courses: React.FC = () => {
   const { t } = useCoursesTranslation();
   const { t: commonT } = useCommonTranslation();
 
+  const { canCreateCourses } = useSelector(selectCapabilities);
+
   const [isOpen, setIsOpen] = React.useState(false);
-  const [courses, setCourses] = React.useState<CoursesType[]>([]);
+  const [courses, setCourses] = React.useState<CourseDto[]>([]);
+  const [modalCourse, setModalCourse] = React.useState<CourseDto>();
+  const [coursesLoading, setCoursesLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
       Request.mock?.onGet("/courses").reply(StatusCodes.OK, Object.values(COURSES));
     }
 
-    getCourses().then(({ data }) => setCourses(data));
+    setCoursesLoading(true);
+
+    getCourses()
+      .then(({ data }) => setCourses(data))
+      .catch(() => setCoursesLoading(false));
   }, []);
 
-  const handleShowModal = React.useCallback(() => setIsOpen(true), [setIsOpen]);
+  const handleShowModal = React.useCallback(
+    (courseId?: number) => {
+      setIsOpen(true);
 
-  const handleCloseModal = React.useCallback(() => setIsOpen(false), [setIsOpen]);
+      const course = courses.find(({ id }) => id === courseId);
+
+      if (course) {
+        setModalCourse(course);
+      }
+    },
+    [courses, setIsOpen]
+  );
+
+  const handleCloseModal = React.useCallback(() => {
+    setIsOpen(false);
+    setModalCourse(undefined);
+  }, [setIsOpen]);
+
+  const handleCoursesPhotosLoaded = React.useCallback(() => setCoursesLoading(false), []);
 
   return (
     <Layout>
       <Header>
         {t("COURSES")}
-        <AddCourseButton type="primary" onClick={handleShowModal}>
-          {commonT("ADD")}
-        </AddCourseButton>
+        {canCreateCourses && (
+          <AddCourseButton type="primary" onClick={handleShowModal.bind(null, undefined)}>
+            {commonT("ADD")}
+          </AddCourseButton>
+        )}
       </Header>
       <Content>
-        <CoursesList courses={courses} />
-        <CourseModal course={COURSES.Group01English} isOpen={isOpen} onClose={handleCloseModal} />
+        <CoursesList
+          courses={courses}
+          loading={coursesLoading}
+          onEditCourse={handleShowModal}
+          onCoursesPhotosLoaded={handleCoursesPhotosLoaded}
+        />
+        {canCreateCourses && <CourseModal isOpen={isOpen} course={modalCourse} onClose={handleCloseModal} />}
       </Content>
       <Footer />
     </Layout>

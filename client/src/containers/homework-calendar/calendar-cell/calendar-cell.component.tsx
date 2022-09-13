@@ -12,12 +12,14 @@ const CalendarCellRoot: React.FC<CalendarCellProps> = ({ homework }) => {
 
   return (
     <div>
-      {homework.map(({ id, name }) => (
-        <div key={id}>
-          {/* TODO: Сделать цвет дз серым, если оно выполнено(только для ученика) */}
-          <Badge color={color} text={name} />
-        </div>
-      ))}
+      {homework
+        .sort((hw1, hw2) => +new Date(hw1.deadline) - +new Date(hw2.deadline))
+        .map(({ id, name }) => (
+          <div key={id}>
+            {/* TODO: Сделать цвет дз серым, если оно выполнено(только для ученика) */}
+            <Badge color={color} text={name} />
+          </div>
+        ))}
     </div>
   );
 };

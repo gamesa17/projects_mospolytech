@@ -18,10 +18,14 @@ import { AddHomeworkButton } from "./homework.styles";
 import { getHomeworks } from "./homework.resourses";
 import { StatusCodes } from "http-status-codes";
 import { Homework as HomeworkType } from "@ts/types";
+import { useSelector } from "@client/store";
+import { selectCapabilities } from "@client/store/permissions";
 
 export const Homework: React.FC = () => {
   const { t } = useHomeworkTranslation();
   const { t: commonT } = useCommonTranslation();
+
+  const { canCreateHomeworkSpecificCourses } = useSelector(selectCapabilities);
 
   const [calendarMode, setCalendarMode] = React.useState<CalendarMode>("month");
   const [calendarDate, setCalendarDate] = React.useState<moment.Moment>(moment());
@@ -33,17 +37,14 @@ export const Homework: React.FC = () => {
       Request.mock?.onGet("/homeworks").reply(StatusCodes.OK, Object.values(HOMEWORKS));
     }
 
-    getHomeworks().then(({ data }) => {
-      setHomeworks(data);
-    });
+    getHomeworks().then(({ data }) => setHomeworks(data));
   }, [t]);
 
   return (
     <Layout>
       <Header>
         {t("HOMEWORK")}
-        {/* TODO: Добавить проверку на учителя */}
-        <AddHomeworkButton type="primary">{commonT("ADD")}</AddHomeworkButton>
+        {canCreateHomeworkSpecificCourses && <AddHomeworkButton type="primary">{commonT("ADD")}</AddHomeworkButton>}
       </Header>
       <Content>
         <HomeworkCalendar

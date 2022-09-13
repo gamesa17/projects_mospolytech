@@ -6,6 +6,6 @@ export interface Homework extends Model {
   course: Course;
   link?: string;
   onEveryLesson?: boolean;
-  created: number;
-  deadline: number;
+  created: string;
+  deadline: string;
 }

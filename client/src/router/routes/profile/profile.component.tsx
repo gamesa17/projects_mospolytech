@@ -29,7 +29,7 @@ export const Profile: React.FC = () => {
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
-      Request.mock?.onGet(`/profile/${id}`).reply(StatusCodes.OK, USERS.Alex);
+      Request.mock?.onGet(`/users/${id}profile`).reply(StatusCodes.OK, USERS.Alex);
     }
 
     getUser(id).then(({ data }) => setUser(data));

@@ -8,6 +8,8 @@ import { Homework } from "@ts/types";
 import { HomeworkActions } from "./homework-actions";
 import { HOMEWORK_TABLE_COLUMNS } from "./homework-table.constants";
 import { TableHomework } from "./homework-table.types";
+import { useSelector } from "@client/store";
+import { selectCapabilities } from "@client/store/permissions";
 
 export const useHomeworkTableColumns = (
   onEdit: (homework: Homework) => void,
@@ -15,15 +17,34 @@ export const useHomeworkTableColumns = (
 ): ColumnsType<TableHomework> => {
   const { t } = useHomeworkTranslation();
 
+  const {
+    canUpdateHomeworkSpecificCourses,
+    canDeleteHomeworkSpecificCourses,
+    canUpdateHomeworkDoneStatusSpecificUsers,
+  } = useSelector(selectCapabilities);
+
   const actionColumn = React.useMemo(
     () => ({
       title: "Действия",
       key: "action",
       render: (_text: string, homework: Homework) => (
-        <HomeworkActions {...homework} onEdit={onEdit.bind(null, homework)} onDelete={onDelete.bind(null, homework)} />
+        <HomeworkActions
+          {...homework}
+          canEdit={canUpdateHomeworkSpecificCourses}
+          canDelete={canDeleteHomeworkSpecificCourses}
+          canUpdateDoneStatus={canUpdateHomeworkDoneStatusSpecificUsers}
+          onEdit={onEdit.bind(null, homework)}
+          onDelete={onDelete.bind(null, homework)}
+        />
       ),
     }),
-    [onEdit, onDelete]
+    [
+      canUpdateHomeworkSpecificCourses,
+      canDeleteHomeworkSpecificCourses,
+      canUpdateHomeworkDoneStatusSpecificUsers,
+      onEdit,
+      onDelete,
+    ]
   );
 
   return React.useMemo(

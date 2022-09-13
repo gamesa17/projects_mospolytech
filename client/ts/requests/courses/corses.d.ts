@@ -1,5 +1,5 @@
-import { Course } from "@ts/types";
+import { CourseDto } from "@ts/types";
 
 export type GetCoursesInput = undefined;
 
-export type GetCoursesResponse = Course[];
+export type GetCoursesResponse = CourseDto[];

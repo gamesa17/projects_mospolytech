@@ -9,4 +9,6 @@ export const ContentWrapper = styled(Layout.Content)<{ padding?: number }>(({ th
   backgroundColor: theme.colorPalette.white,
 
   overflow: "auto",
+
+  position: "relative",
 }));
