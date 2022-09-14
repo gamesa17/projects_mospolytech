@@ -4,4 +4,9 @@ module.exports = (serverLink) => ({
     logLevel: "debug",
     changeOrigin: true,
   },
+  "/media": {
+    target: serverLink,
+    logLevel: "debug",
+    changeOrigin: true,
+  },
 });
