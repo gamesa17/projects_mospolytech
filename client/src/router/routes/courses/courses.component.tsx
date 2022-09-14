@@ -42,7 +42,13 @@ export const Courses: React.FC = () => {
     setCoursesLoading(true);
 
     getCourses()
-      .then(({ data }) => setCourses(data))
+      .then(({ data }) => {
+        setCourses(data);
+
+        if (!data.length) {
+          setCoursesLoading(false);
+        }
+      })
       .catch(() => setCoursesLoading(false));
   }, []);
 

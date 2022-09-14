@@ -9,4 +9,4 @@ class Level(models.Model):
     name = models.CharField("Уровень", max_length=50)
 
     def __str__(self):
-        return str(self.name)
+        return f"[ID={self.pk}] {self.name}"

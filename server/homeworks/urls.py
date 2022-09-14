@@ -1,9 +1,8 @@
 from django.urls import path
 
-from homeworks.views import AllHomeworksView
+from homeworks.api import HomeworkAPI, HomeworksAPI
 
 urlpatterns = [
-    path("", AllHomeworksView.as_view()),
-    # path("courses/<int:courseId>/homeworks", HomeworksView.as_view()),
-    # path("courses/<int:courseId>/homeworks/<int:homeworkId>", HomeworkView.as_view()),
+    path("", HomeworksAPI.as_view()),
+    path("/<int:homeworkId>", HomeworkAPI.as_view()),
 ]

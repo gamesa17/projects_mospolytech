@@ -26,8 +26,8 @@ export const HOMEWORK_TABLE_COLUMNS: ColumnsType<TableHomework> = [
   },
   {
     title: "HOMEWORK_TABLE.COLUMNS_NAME.DEADLINE",
-    key: "deadline",
-    dataIndex: "deadline",
-    render: (deadline: string) => new Date(deadline).toLocaleString(i18next.language),
+    key: "deadlineAt",
+    dataIndex: "deadlineAt",
+    render: (deadlineAt: string) => new Date(deadlineAt).toLocaleString(i18next.language),
   },
 ];

@@ -18,11 +18,12 @@ import {
   COURSE_MODAL_LOAD_STUDENTS_LIMIT,
 } from "./course-modal.constants";
 import { ListHeader, LoadMoreButton } from "./course-model.styles";
-import { CourseModalFormType, CourseModalProps, StudentExtended } from "./course-modal.types";
+import { CourseModalFormType, CourseModalProps, Student } from "./course-modal.types";
 
-import { LEVELS } from "@client/mock/levels";
-import { LANGUAGES } from "@client/mock/languages";
 import { USERS } from "@client/mock/users";
+import { LEVELS } from "@client/mock/levels";
+import { COURSES } from "@client/mock/courses";
+import { LANGUAGES } from "@client/mock/languages";
 
 export const CourseModal: React.FC<CourseModalProps> = ({
   course: { id, name, level, language, students: courseStudents = [] } = {},
@@ -35,9 +36,9 @@ export const CourseModal: React.FC<CourseModalProps> = ({
   const [form] = Form.useForm<CourseModalFormType>();
 
   const [levels, setLevels] = React.useState<Level[]>([]);
+  const [students, setStudents] = React.useState<Student[]>([]);
   const [languages, setLanguages] = React.useState<Language[]>([]);
   const [studentsSkip, setStudentsSkip] = React.useState<number>(0);
-  const [students, setStudents] = React.useState<StudentExtended[]>([]);
   const [loadedStudents, setLoadedStudents] = React.useState<number>(0);
 
   const maxStudents = courseStudents.length;
@@ -56,19 +57,26 @@ export const CourseModal: React.FC<CourseModalProps> = ({
   }, []);
 
   React.useEffect(() => {
-    if (!id) {
+    if (id === undefined) {
       return;
     }
 
     if (process.env.USE_MOCKS) {
-      Request.mock?.onGet(/^\/users\/profiles/).reply(StatusCodes.OK, Object.values(USERS));
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const course = Object.values(COURSES).find(({ id: courseId }) => courseId === id)!;
+
+      const courseStudents = Object.values(USERS).filter(({ id: userId }) => course.students.includes(userId));
+
+      Request.mock
+        ?.onGet(/^\/users/)
+        .reply(StatusCodes.OK, courseStudents.slice(0, Math.min(maxStudents, COURSE_MODAL_LOAD_STUDENTS_LIMIT)));
     }
 
     getStudents(id, studentsSkip, COURSE_MODAL_LOAD_STUDENTS_LIMIT).then(({ data }) => {
       setStudents((prevStudents) => [...prevStudents, ...data]);
       setLoadedStudents((prevLoaded) => prevLoaded + data.length);
     });
-  }, [id, studentsSkip]);
+  }, [id, maxStudents, studentsSkip]);
 
   React.useEffect(() => {
     form.resetFields();
@@ -88,7 +96,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({
         const lastStudent = prevStudents[prevStudents.length - 1];
         const newStudentId = lastStudent ? lastStudent.id + 1 : 0;
 
-        return [{ new: true, username: "", role: UserRole.STUDENT, id: newStudentId }, ...prevStudents];
+        return [{ new: true, username: "", role: UserRole.STUDENT, id: newStudentId, languages: [] }, ...prevStudents];
       }),
     []
   );

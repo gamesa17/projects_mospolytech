@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { StudentExtended } from "@containers/course-modal/course-modal.types";
+import { Student } from "@containers/course-modal/course-modal.types";
 
 export type StudentInfoProps = {
-  student: StudentExtended;
+  student: Student;
   removeStudent: (studentId: number) => void;
-  setStudents: Dispatch<SetStateAction<StudentExtended[]>>;
+  setStudents: Dispatch<SetStateAction<Student[]>>;
 };

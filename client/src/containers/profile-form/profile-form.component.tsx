@@ -8,10 +8,7 @@ import { ProfileFormWrapper } from "./profile-form.styles";
 import { useSelector } from "@client/store";
 import { selectCapabilities } from "@client/store/permissions";
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({
-  initialValues: { firstName = "", lastName = "", city = "", phone = "" } = {},
-  onSubmit,
-}) => {
+export const ProfileForm: React.FC<ProfileFormProps> = ({ initialValues = {}, onSubmit }) => {
   const { t } = useCommonTranslation();
 
   const { canUpdateUserProfileSpecificUsers } = useSelector(selectCapabilities);
@@ -20,26 +17,32 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
 
   const [phoneInput, setPhoneInput] = React.useState("");
 
-  const handlePhoneInputCHange = React.useCallback(
+  const handlePhoneInputChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => setPhoneInput(event.target.value),
     []
   );
 
   return (
     <ProfileFormWrapper>
-      <Form labelCol={{ span: 2 }} wrapperCol={{ span: 6 }} disabled={isReadOnly} onFinish={onSubmit}>
-        <Form.Item name="firstName" label={t("FIRST_NAME")} initialValue={firstName}>
+      <Form
+        labelCol={{ span: 2 }}
+        wrapperCol={{ span: 6 }}
+        disabled={isReadOnly}
+        initialValues={initialValues}
+        onFinish={onSubmit}
+      >
+        <Form.Item name="firstName" label={t("FIRST_NAME")}>
           <Input />
         </Form.Item>
-        <Form.Item name="lastName" label={t("LAST_NAME")} initialValue={lastName}>
+        <Form.Item name="lastName" label={t("LAST_NAME")}>
           <Input />
         </Form.Item>
-        <Form.Item name="phone" label={t("PHONE")} initialValue={phone}>
-          <InputMask mask="+7 (999) 999 9999" value={phoneInput} onChange={handlePhoneInputCHange}>
+        <Form.Item name="phone" label={t("PHONE")}>
+          <InputMask mask="+7 (999) 999 9999" value={phoneInput} onChange={handlePhoneInputChange}>
             {((inputProps: {}) => <Input {...inputProps} />) as unknown as React.ReactNode}
           </InputMask>
         </Form.Item>
-        <Form.Item name="city" label={t("CITY")} initialValue={city}>
+        <Form.Item name="email" label={t("EMAIL")} rules={[{ type: "email" }]}>
           <Input />
         </Form.Item>
         {canUpdateUserProfileSpecificUsers && (

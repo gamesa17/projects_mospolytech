@@ -16,5 +16,5 @@ export const getLanguages = () =>
 
 export const getStudents = (courseId: number, skip: number, limit: number) =>
   Request.instance.get<GetUsersInput, AxiosResponse<GetUsersResponse>>(
-    `/users/profiles?courseId=${courseId}&skip=${skip}&limit=${limit}`
+    `/users?courseId=${courseId}&skip=${skip}&limit=${limit}`
   );

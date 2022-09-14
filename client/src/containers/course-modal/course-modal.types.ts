@@ -1,5 +1,4 @@
-import { CourseDto } from "@ts/types";
-import { Student } from "@ts/types";
+import { User, CourseDto } from "@ts/types";
 
 export type CourseModalProps = {
   course?: CourseDto;
@@ -7,7 +6,7 @@ export type CourseModalProps = {
   onClose: () => void;
 };
 
-export interface StudentExtended extends Student {
+export interface Student extends User {
   new?: boolean;
 }
 

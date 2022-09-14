@@ -1,30 +1,24 @@
 from rest_framework import serializers
 
-from courses.serializers import CourseSerializer
+from courses.serializers import CourseDtoSerializer
 from homeworks.models import Homework
 
 
-class AllHomeworksSerializer(serializers.ModelSerializer):
-    course = CourseSerializer()
+class HomeworkDtoSerializer(serializers.ModelSerializer):
+    course = CourseDtoSerializer()
 
     class Meta:
         model = Homework
         fields = "__all__"
 
 
-class HomeworkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Homework
-        exclude = ("course", "link")
-
-
 class AddHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Homework
-        fields = ("name", "link", "description", "deadline", "onEveryLesson", "course", "draft")
+        fields = ("course", "name", "description", "link", "deadlineAt", "isOnEveryLesson")
 
 
 class UpdateHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Homework
-        fields = ("name", "link", "description", "deadline", "onEveryLesson", "draft")
+        fields = ("name", "description", "link", "deadlineAt", "isOnEveryLesson",)

@@ -1,10 +1,10 @@
 import { PermissionKey, PermissionTargetKey } from "@ts/enums";
-import { Model } from "../model";
+import { Model, ModelId } from "@ts/types";
 
 export interface Permission extends Model {
   key: PermissionKey;
-  targetUserId: Model["id"];
+  targetUserId: ModelId;
   targetUserIdKey: PermissionTargetKey;
-  targetCourseId: Model["id"];
+  targetCourseId: ModelId;
   targetCourseIdKey: PermissionTargetKey;
 }

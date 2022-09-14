@@ -13,7 +13,7 @@ const CalendarCellRoot: React.FC<CalendarCellProps> = ({ homework }) => {
   return (
     <div>
       {homework
-        .sort((hw1, hw2) => +new Date(hw1.deadline) - +new Date(hw2.deadline))
+        .sort((hw1, hw2) => +new Date(hw1.deadlineAt) - +new Date(hw2.deadlineAt))
         .map(({ id, name }) => (
           <div key={id}>
             {/* TODO: Сделать цвет дз серым, если оно выполнено(только для ученика) */}

@@ -1,3 +1,3 @@
-import { Student } from "@ts/types";
+import { User } from "@ts/types";
 
-export const getFullUserName = (user: Student): string => `${user.firstName} ${user.lastName}`;
+export const getFullUserName = (user: User): string => `${user.firstName} ${user.lastName}`;

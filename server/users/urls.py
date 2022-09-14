@@ -1,9 +1,9 @@
 from django.urls import path
 
-from users.views import MeView, UserProfileView, UserProfilesView
+from users.api import MeAPI, UserAPI, UsersAPI
 
 urlpatterns = [
-    path("/profiles", UserProfilesView.as_view(), name="profiles"),
-    path("/<int:userId>/profile", UserProfileView.as_view(), name="profile"),
-    path("/me", MeView.as_view()),
+    path("", UsersAPI.as_view()),
+    path("/<int:userId>", UserAPI.as_view()),
+    path("/me", MeAPI.as_view()),
 ]

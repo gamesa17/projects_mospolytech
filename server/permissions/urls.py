@@ -1,7 +1,7 @@
 from django.urls import path
 
-from permissions.views import PermissionsView
+from permissions.api import PermissionsAPI
 
 urlpatterns = [
-    path("", PermissionsView.as_view()),
+    path("", PermissionsAPI.as_view()),
 ]

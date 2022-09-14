@@ -1,7 +1,7 @@
 from django.urls import path
 
-from languages.views import LanguageTeachersView
+from languages.api import LanguagesAPI
 
 urlpatterns = [
-    path("", LanguageTeachersView.as_view()),
+    path("", LanguagesAPI.as_view()),
 ]

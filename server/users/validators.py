@@ -1,6 +1,4 @@
-from django.contrib.auth.models import User
-
-from users.models import UserRole
+from users.models import User, UserRole
 
 
 class UserValidators:

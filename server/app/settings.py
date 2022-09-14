@@ -30,7 +30,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 USE_TZ = True
 USE_I18N = True
 TIME_ZONE = "Europe/Moscow"
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
+
+AUTH_USER_MODEL = "users.User"
 
 # Rest framework
 

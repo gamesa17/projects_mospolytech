@@ -25,12 +25,12 @@ const HomeworkCalendarRoot: React.FC<HomeworkCalendarProps> = ({
   }, []);
 
   const getDateHomework = React.useCallback(
-    (date: moment.Moment) => homeworks.filter(({ deadline }) => date.isSame(deadline, "day")),
+    (date: moment.Moment) => homeworks.filter(({ deadlineAt }) => date.isSame(deadlineAt, "day")),
     [homeworks]
   );
 
   const getMonthHomework = React.useCallback(
-    (date: moment.Moment) => homeworks.filter(({ deadline }) => date.isSame(deadline, "month")),
+    (date: moment.Moment) => homeworks.filter(({ deadlineAt }) => date.isSame(deadlineAt, "month")),
     [homeworks]
   );
 

@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from courses.models import Course
-from users.models import User, UserProfile, UserRole
+from users.models import User, UserRole
 
 
 class PermissionKey(models.TextChoices):
@@ -40,10 +40,10 @@ class PermissionTargetKey(models.TextChoices):
                 return [user.id]
 
             case PermissionTargetKey.STUDY_COURSES_IDS:
-                return [course.id for course in Course.objects.filter(students__user=user)]
+                return [course.id for course in Course.objects.filter(students=user)]
 
             case PermissionTargetKey.TEACH_COURSES_IDS:
-                return [course.id for course in Course.objects.filter(teacher__user=user)]
+                return [course.id for course in Course.objects.filter(teacher=user)]
 
         return []
 
@@ -174,17 +174,17 @@ class Permission(models.Model):
     )
 
     def __str__(self):
-        return str(self.user.username)
+        return f"[ID={self.pk}] {self.key} for user({self.user})"
 
     @staticmethod
-    @receiver(post_save, sender=UserProfile)
+    @receiver(post_save, sender=User)
     def CreatePermissions(instance, created, **kwargs):
         if created:
             defaultUserPermissions = Permission.GetDefaultPermissions(
                 role=instance.role,
             )
             Permission.CreateDefaultPermissions(
-                user=instance.user,
+                user=instance,
                 defaultPermissions=defaultUserPermissions,
             )
 

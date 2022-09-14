@@ -3,7 +3,7 @@ import { Request } from "@common/request";
 import { GetUserInput, GetUserResponse, UpdateUserInput, UpdateUserResponse } from "@ts/requests";
 
 export const getUser = (id: number) =>
-  Request.instance.get<GetUserInput, AxiosResponse<GetUserResponse>>(`/users/${id}/profile`);
+  Request.instance.get<GetUserInput, AxiosResponse<GetUserResponse>>(`/users/${id}`);
 
 export const updateUser = (id: number, data: UpdateUserInput) =>
-  Request.instance.put<UpdateUserInput, AxiosResponse<UpdateUserResponse>>(`/users/${id}/profile`, data);
+  Request.instance.put<UpdateUserInput, AxiosResponse<UpdateUserResponse>>(`/users/${id}`, data);

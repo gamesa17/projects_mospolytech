@@ -27,14 +27,14 @@ const HomeworkTableRoot: React.FC<HomeworkTableProps> = ({ homework, calendarDat
 
   const tableData = React.useMemo(() => {
     const data = homework
-      .sort((hw1, hw2) => +new Date(hw1.deadline) - +new Date(hw2.deadline))
+      .sort((hw1, hw2) => +new Date(hw1.deadlineAt) - +new Date(hw2.deadlineAt))
       .map((hw) => ({ ...hw, key: `${hw.id}-${calendarMode}-${+calendarDate}` }));
 
     if (calendarMode === "month") {
-      return data.filter(({ deadline }) => calendarDate.isSame(deadline, "day"));
+      return data.filter(({ deadlineAt }) => calendarDate.isSame(deadlineAt, "day"));
     }
 
-    return data.filter(({ deadline }) => calendarDate.isSame(deadline, "month"));
+    return data.filter(({ deadlineAt }) => calendarDate.isSame(deadlineAt, "month"));
   }, [homework, calendarMode, calendarDate]);
 
   return (

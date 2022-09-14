@@ -1,17 +1,14 @@
-import { Level, Model, Student, Teacher, Language } from "@ts/types";
+import { Level, Model, ModelId, Language, User } from "@ts/types";
 
 export interface Course extends Model {
   name: string;
   level: Level;
   language: Language;
-  teacher: Teacher;
-  students: Student[];
+  teacher: User;
+  students: User[];
 }
 
-export interface CourseDto extends Model {
-  name: string;
-  level: Level;
-  language: Language;
-  teacher: number;
-  students: number[];
+export interface CourseDto extends Omit<Course, "teacher" | "students"> {
+  teacher: ModelId;
+  students: ModelId[];
 }

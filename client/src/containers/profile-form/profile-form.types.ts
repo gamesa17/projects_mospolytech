@@ -2,7 +2,7 @@ export type ProfileFormValues = {
   firstName: string;
   lastName: string;
 
-  city: string;
+  email: string;
   phone: string;
 };
 

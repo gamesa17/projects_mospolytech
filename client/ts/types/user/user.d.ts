@@ -1,4 +1,4 @@
-import { Model } from "@ts/types";
+import { Model, Language } from "@ts/types";
 import { UserRole } from "@ts/enums";
 
 export interface User extends Model {
@@ -10,6 +10,8 @@ export interface User extends Model {
   firstName?: string;
   lastName?: string;
 
-  city?: string;
+  email?: string;
   phone?: string;
+
+  languages: Language[];
 }

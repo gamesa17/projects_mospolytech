@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from languages.models import Language
@@ -9,53 +9,25 @@ class UserRole(models.TextChoices):
     TEACHER = "TEACHER"
 
 
-class UserProfile(models.Model):
+class User(AbstractUser):
     class Meta:
-        verbose_name = "Профиль пользователя"
-        verbose_name_plural = "Профиль пользователей"
-        ordering = ("user", )
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
-    user = models.OneToOneField(
-        verbose_name="Пользователь",
-        to=User,
-        on_delete=models.CASCADE,
-    )
-    role = models.CharField(
-        verbose_name="Роль",
-        max_length=20,
-        choices=UserRole.choices,
-        default="",
-    )
+    # username
+    # password
+    # email
+
+    role = models.CharField(verbose_name="Роль", max_length=20, choices=UserRole.choices, default="")
+
     avatar = models.ImageField(verbose_name="Аватар", null=True, blank=True)
     firstName = models.CharField(verbose_name="Имя", max_length=255, default="")
     lastName = models.CharField(verbose_name="Фамилия", max_length=255, default="")
+
     phone = models.CharField(verbose_name="Телефон", max_length=20, default="")
-    city = models.CharField(verbose_name="Город", max_length=20, default="")
+
+    # UserRole.TEACHER specific
+    languages = models.ManyToManyField(verbose_name="Язык", to=Language, blank=True)
 
     def __str__(self):
-        return str(self.firstName)
-
-
-class Teacher(models.Model):
-    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-    language = models.ManyToManyField(Language, verbose_name="Язык", blank=True)
-
-    def __str__(self):
-        return str(self.user)
-
-    class Meta:
-        verbose_name = "Учитель"
-        verbose_name_plural = "Учителя"
-        ordering = ("user", "language__name")
-
-
-class Student(models.Model):
-    class Meta:
-        verbose_name = "Ученик"
-        verbose_name_plural = "Ученики"
-        ordering = ("user", )
-
-    user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.user)
+        return f"[ID={self.pk}] {self.username}"

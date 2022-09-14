@@ -1,15 +1,9 @@
 from rest_framework import serializers
 
-from users.models import UserProfile, Student
+from users.models import User
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
+class UserDtoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
-        exclude = ("user",)
-
-
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = "__all__"
+        model = User
+        fields = ("id", "username", "role", "firstName", "lastName", "avatar", "email", "phone", "languages", )

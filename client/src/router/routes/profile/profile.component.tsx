@@ -23,13 +23,17 @@ import { USERS } from "@client/mock/users";
 export const Profile: React.FC = () => {
   const { t } = useCommonTranslation();
 
-  const { id = 0 } = useSelector(selectUser) || {};
+  const { id } = useSelector(selectUser) || {};
 
   const [user, setUser] = React.useState<User>();
 
   React.useEffect(() => {
+    if (!id) {
+      return;
+    }
+
     if (process.env.USE_MOCKS) {
-      Request.mock?.onGet(`/users/${id}profile`).reply(StatusCodes.OK, USERS.Alex);
+      Request.mock?.onGet(`/users/${id}`).reply(StatusCodes.OK, USERS.Alex);
     }
 
     getUser(id).then(({ data }) => setUser(data));
@@ -37,12 +41,14 @@ export const Profile: React.FC = () => {
 
   const handleFormSubmit = React.useCallback(
     (values: ProfileFormValues) => {
-      updateUser(id, values);
+      if (id) {
+        updateUser(id, values);
+      }
     },
     [id]
   );
 
-  if (!user) {
+  if (!id || !user) {
     return null;
   }
 

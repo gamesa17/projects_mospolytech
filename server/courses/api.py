@@ -3,32 +3,30 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from courses.models import Course
-from courses.serializers import AddCourseSerializer, CourseInfoSerializer, UpdateCourseSerializer  # noqa I001
-from permissions.models import Permission, PermissionTargetKey  # noqa I005
-from users.models import Teacher, UserProfile, UserRole
+from courses.serializers import AddCourseSerializer, CourseDtoSerializer, UpdateCourseSerializer
+from permissions.models import Permission, PermissionTargetKey
+from users.models import UserRole
 
 
-class CoursesView(APIView):
+class CoursesAPI(APIView):
     @staticmethod
     def get(request):
         try:
-            user = request.user
-            userprofile = UserProfile.objects.get(user=user)
+            skip = request.query_params.get("skip", None)
+            limit = request.query_params.get("limit", None)
 
-            params = request.query_params
-
-            skip = params.get("skip", None)
-            limit = params.get("limit", None)
-
-            if userprofile.role == UserRole.STUDENT:
+            if request.user.role == UserRole.STUDENT:
                 accessibleCoursesIds = PermissionTargetKey.GetTargetsIds(
-                    user=user, key=PermissionTargetKey.STUDY_COURSES_IDS,
+                    user=request.user, key=PermissionTargetKey.STUDY_COURSES_IDS,
                 )
-            else:
+
+            if request.user.role == UserRole.TEACHER:
                 accessibleCoursesIds = PermissionTargetKey.GetTargetsIds(
-                    user=user,
+                    user=request.user,
                     key=PermissionTargetKey.TEACH_COURSES_IDS,
                 )
+
+            print(request.user.role)
 
             courses = Course.objects.filter(pk__in=accessibleCoursesIds).select_related("level", "language")
 
@@ -38,7 +36,7 @@ class CoursesView(APIView):
             if limit:
                 courses = courses[:int(skip) + int(limit)]
 
-            courses = CourseInfoSerializer(courses, many=True)
+            courses = CourseDtoSerializer(instance=courses, many=True)
 
             return Response(data=courses.data, status=status.HTTP_200_OK)
 
@@ -48,22 +46,15 @@ class CoursesView(APIView):
     @staticmethod
     def post(request):
         try:
-            user = request.user
-
-            if not Permission.CanCreateCourse(user=user):
+            if not Permission.CanCreateCourse(user=request.user):
                 return Permission.GetNoPermissionResponse()
 
-            teacher = Teacher.objects.get(user=user)
+            request.data["teacherId"] = request.user.id
 
-            course = AddCourseSerializer(data={
-                "name": request.data["name"],
-                "level": request.data["levelId"],
-                "language": request.data["languageId"],
-                "teacher": teacher.id,
-            })
+            course = AddCourseSerializer(data=request.data)
 
             if not course.is_valid():
-                return Response(data=course.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data={"error": str(course.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
             course.save()
 
@@ -73,7 +64,7 @@ class CoursesView(APIView):
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class CourseView(APIView):
+class CourseAPI(APIView):
     @staticmethod
     def put(request, courseId=None):
         try:
@@ -87,18 +78,12 @@ class CourseView(APIView):
 
             course = Course.objects.get(pk=courseId)
 
-            updateData = {
-                "name": request.data["name"],
-                "level": request.data["levelId"],
-                "language": request.data["languageId"],
-                "students": request.data["students"],
-                "teacher": course.teacher.id,
-            }
+            request.data["teacherId"] = request.user.id
 
-            updatedCourse = UpdateCourseSerializer(instance=course, data=updateData)
+            updatedCourse = UpdateCourseSerializer(instance=course, data=request.data)
 
             if not updatedCourse.is_valid():
-                return Response(data=updatedCourse.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data={"error": str(course.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
             updatedCourse.save()
 
@@ -110,9 +95,7 @@ class CourseView(APIView):
     @staticmethod
     def delete(request, courseId=None):
         try:
-            user = request.user
-
-            if not Permission.CanDeleteSpecificCourses(user=user, targetCourseId=courseId):
+            if not Permission.CanDeleteSpecificCourses(user=request.user, targetCourseId=courseId):
                 return Permission.GetNoPermissionResponse()
 
             course = Course.objects.get(pk=courseId)

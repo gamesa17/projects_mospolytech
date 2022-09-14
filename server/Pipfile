@@ -9,7 +9,6 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 wemake-python-styleguide = "*"
-flake8-bandit = "*"
 
 [dev-packages]
 

@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,11 +6,11 @@ from rest_framework_simplejwt.exceptions import TokenError
 
 from authtokens.jwt_tokens import JWTTokens
 from authtokens.validators import RequestValidator
-from users.models import Student, Teacher, UserProfile, UserRole
+from users.models import User
 from users.validators import UserValidators
 
 
-class SignupView(APIView):
+class SignupAPI(APIView):
     permission_classes = (permissions.AllowAny, )
 
     @staticmethod
@@ -50,14 +49,7 @@ class SignupView(APIView):
             if UserValidators.IsUserExists(username=username):
                 return Response(data={"error": "Пользователь уже существует"}, status=status.HTTP_400_BAD_REQUEST)
 
-            user = User.objects.create_user(username=username, password=password)
-
-            userProfile = UserProfile.objects.create(user=user, role=role)
-
-            if userProfile.role == UserRole.STUDENT:
-                Student.objects.create(user=user)
-            else:
-                Teacher.objects.create(user=user)
+            User.objects.create_user(username=username, password=password, role=role)
 
             return Response(status=status.HTTP_201_CREATED)
 
@@ -65,14 +57,12 @@ class SignupView(APIView):
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class LoginView(APIView):
+class LoginAPI(APIView):
     permission_classes = (permissions.AllowAny, )
 
     @staticmethod
     def post(request):
         try:
-            response = Response(status=status.HTTP_200_OK)
-
             if (not RequestValidator.ContainNotEmpty(object=request.data, fields=["username", "password"])):
                 return Response(
                     data={"error": "Недостаточно данных для авторизации"},
@@ -89,6 +79,8 @@ class LoginView(APIView):
 
             tokens = JWTTokens.GetTokensByUser(user=user)
 
+            response = Response(status=status.HTTP_200_OK)
+
             JWTTokens.AddTokensToResponse(response=response, tokens=tokens)
 
             return response
@@ -97,7 +89,7 @@ class LoginView(APIView):
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class LogoutView(APIView):
+class LogoutAPI(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
@@ -122,7 +114,7 @@ class LogoutView(APIView):
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class TokenRefreshView(APIView):
+class TokenRefreshAPI(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
@@ -147,13 +139,11 @@ class TokenRefreshView(APIView):
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class DeleteAccountView(APIView):
+class DeleteAccountAPI(APIView):
     @staticmethod
     def delete(request):
         try:
-            user = request.user
-
-            User.objects.filter(id=user.id).delete()
+            User.objects.delete(id=request.user.id)
 
             return Response(status=status.HTTP_200_OK)
 

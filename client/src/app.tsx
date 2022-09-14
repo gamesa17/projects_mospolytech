@@ -24,8 +24,8 @@ export const App = () => {
   const checkingAuthorization = useSelector(selectCheckingAuthorized);
 
   React.useEffect(() => {
-    Request.mock?.onGet("/me").reply(StatusCodes.OK, USERS.Alex);
-    Request.mock?.onGet("/permissions").reply(StatusCodes.OK, PERMISSIONS);
+    Request.mock?.onGet("/users/me").reply(StatusCodes.OK, USERS.Alex);
+    Request.mock?.onGet("/permissions").reply(StatusCodes.OK, PERMISSIONS.Alex);
   }, []);
 
   React.useEffect(() => {

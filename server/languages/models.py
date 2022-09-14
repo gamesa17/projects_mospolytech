@@ -9,4 +9,4 @@ class Language(models.Model):
     name = models.CharField("Язык", max_length=150)
 
     def __str__(self):
-        return str(self.name)
+        return f"[ID={self.pk}] {self.name}"

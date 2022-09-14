@@ -1,19 +1,11 @@
+import { User } from "@ts/types";
+
 import { USERS } from "./users";
-import { Student } from "@ts/types";
 
 type Students = "Tom" | "Alex" | "John";
 
-export const STUDENTS: Record<Students, Student> = {
-  Tom: {
-    ...USERS.Tom,
-    id: 0,
-  },
-  Alex: {
-    ...USERS.Alex,
-    id: 1,
-  },
-  John: {
-    ...USERS.John,
-    id: 2,
-  },
+export const STUDENTS: Record<Students, User> = {
+  Tom: USERS.Tom,
+  Alex: USERS.Alex,
+  John: USERS.John,
 };
