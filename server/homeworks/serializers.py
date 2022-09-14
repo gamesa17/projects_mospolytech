@@ -21,4 +21,4 @@ class AddHomeworkSerializer(serializers.ModelSerializer):
 class UpdateHomeworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Homework
-        fields = ("name", "description", "link", "deadlineAt", "isOnEveryLesson",)
+        fields = ("name", "description", "link", "deadlineAt", "isOnEveryLesson")

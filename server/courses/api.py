@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from courses.models import Course
-from courses.serializers import AddCourseSerializer, CourseDtoSerializer, UpdateCourseSerializer
-from permissions.models import Permission, PermissionTargetKey
-from users.models import UserRole
+from courses.serializers import AddCourseSerializer, CourseDtoSerializer, UpdateCourseSerializer  # noqa I001
+from permissions.models import Permission, PermissionTargetKey  # noqa I001,I005
+from users.models import UserRole  # noqa I005
 
 
 class CoursesAPI(APIView):
@@ -25,8 +25,6 @@ class CoursesAPI(APIView):
                     user=request.user,
                     key=PermissionTargetKey.TEACH_COURSES_IDS,
                 )
-
-            print(request.user.role)
 
             courses = Course.objects.filter(pk__in=accessibleCoursesIds).select_related("level", "language")
 
@@ -51,14 +49,16 @@ class CoursesAPI(APIView):
 
             request.data["teacherId"] = request.user.id
 
-            course = AddCourseSerializer(data=request.data)
+            createdCourse = AddCourseSerializer(data=request.data)
 
-            if not course.is_valid():
-                return Response(data={"error": str(course.errors)}, status=status.HTTP_400_BAD_REQUEST)
+            if not createdCourse.is_valid():
+                return Response(data={"error": str(createdCourse.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
-            course.save()
+            createdCourse = createdCourse.save()
 
-            return Response(data=course.data, status=status.HTTP_201_CREATED)
+            createdCourseDto = CourseDtoSerializer(instance=createdCourse)
+
+            return Response(data=createdCourseDto.data, status=status.HTTP_201_CREATED)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -83,11 +83,14 @@ class CourseAPI(APIView):
             updatedCourse = UpdateCourseSerializer(instance=course, data=request.data)
 
             if not updatedCourse.is_valid():
-                return Response(data={"error": str(course.errors)}, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data={"error": str(updatedCourse.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
             updatedCourse.save()
 
-            return Response(data=updatedCourse.data, status=status.HTTP_200_OK)
+            updatedCourse = Course.objects.get(pk=courseId)
+            updatedCourseDto = CourseDtoSerializer(instance=updatedCourse)
+
+            return Response(data=updatedCourseDto.data, status=status.HTTP_200_OK)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

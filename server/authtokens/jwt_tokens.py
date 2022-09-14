@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class JWTTokens:
     REFRESH_TOKEN_KEY = settings.SIMPLE_JWT["AUTH_COOKIE"]
-    ACCESS_TOKEN_KEY = "accessToken"  # noqa S105
+    ACCESS_TOKEN_KEY = "accessToken"
 
     @staticmethod
     def GetTokensByUser(user) -> dict:
@@ -40,7 +40,7 @@ class JWTTokens:
     @staticmethod
     def AddAccessTokenToResponse(response, accessToken) -> None:
         if response.data is None:
-            response.data = {}  # noqa WPS124
+            response.data = {}
 
         response.data[JWTTokens.ACCESS_TOKEN_KEY] = accessToken
 

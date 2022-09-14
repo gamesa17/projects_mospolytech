@@ -1,5 +1,5 @@
-import django.utils.timezone
 from django.db import models
+from django.utils.timezone import now
 
 from courses.models import Course
 
@@ -17,7 +17,7 @@ class Homework(models.Model):
 
     isOnEveryLesson = models.BooleanField(verbose_name="Длительное", default=False)
 
-    createdAt = models.DateTimeField(verbose_name="Дата создания", default=django.utils.timezone.now)
+    createdAt = models.DateTimeField(verbose_name="Дата создания", default=now)
     deadlineAt = models.DateTimeField(verbose_name="Дата дедлайна")
 
     def __str__(self):

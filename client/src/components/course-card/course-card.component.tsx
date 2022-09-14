@@ -46,8 +46,9 @@ const CourseCardRoot: React.FC<CourseCardProps> = ({
                 okButtonProps={{
                   danger: true,
                 }}
+                onConfirm={onDelete}
               >
-                <DeleteOutlined onClick={onDelete} />
+                <DeleteOutlined />
               </Popconfirm>,
             ]
           : []),

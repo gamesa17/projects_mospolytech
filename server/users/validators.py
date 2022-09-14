@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from users.models import User, UserRole
 
 
@@ -8,7 +10,7 @@ class UserValidators:
 
     @staticmethod
     def IsUserExists(username) -> bool:
-        return User.objects.filter(username=username).exists()
+        return User.objects.filter(Q(username=username) & ~Q(username="admin")).exists()
 
     @staticmethod
     def IsValidUserRole(role) -> bool:
@@ -19,14 +21,8 @@ class UserValidators:
         if len(username) < UserValidators.USERNAME_MIN_LENGTH:
             return False
 
-        if not all(symbol in UserValidators.USERNAME_ACCEPTED_SYMBOLS for symbol in username):
-            return False
-
-        return True
+        return all(symbol in UserValidators.USERNAME_ACCEPTED_SYMBOLS for symbol in username)
 
     @staticmethod
     def IsValidPassword(password) -> bool:
-        if len(password) < UserValidators.PASSWORD_MIN_LENGTH:
-            return False
-
-        return True
+        return len(password) >= UserValidators.PASSWORD_MIN_LENGTH

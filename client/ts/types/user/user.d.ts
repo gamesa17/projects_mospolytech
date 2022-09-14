@@ -15,3 +15,5 @@ export interface User extends Model {
 
   languages: Language[];
 }
+
+export type ShortUserDto = Omit<User, "email" | "phone" | "languages">;

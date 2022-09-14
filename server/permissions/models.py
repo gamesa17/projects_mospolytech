@@ -131,16 +131,8 @@ class Permission(models.Model):
         },
     ]
 
-    user = models.ForeignKey(
-        verbose_name="Пользователь",
-        to=User, related_name="owner",
-        on_delete=models.CASCADE,
-    )
-    key = models.CharField(
-        verbose_name="Ключ",
-        choices=PermissionKey.choices,
-        max_length=255,
-    )
+    user = models.ForeignKey(verbose_name="Пользователь", to=User, related_name="owner", on_delete=models.CASCADE)
+    key = models.CharField(verbose_name="Ключ", choices=PermissionKey.choices, max_length=255)
 
     targetUserId = models.ForeignKey(
         verbose_name="User ID цели доступа",
@@ -227,10 +219,7 @@ class Permission(models.Model):
 
     @staticmethod
     def CanUserAccessByExistence(user, permissionKey):
-        if Permission.objects.filter(user=user, key=permissionKey).exists():
-            return True
-
-        return False
+        return Permission.objects.filter(user=user, key=permissionKey).exists()
 
     @staticmethod
     def CanUserAccessByUserId(user, permissionKey, targetUserId):
@@ -260,10 +249,7 @@ class Permission(models.Model):
                 availableUsersIds.extend(PermissionTargetKey.GetTargetsIds(
                     user=user, key=permissionTargetUserIdKey))
 
-        if targetUserId in availableUsersIds:
-            return True
-
-        return False
+        return targetUserId in availableUsersIds
 
     @staticmethod
     def CanUserAccessByCourseId(user, permissionKey, targetCourseId):
@@ -295,10 +281,7 @@ class Permission(models.Model):
                     PermissionTargetKey.GetTargetsIds(user=user, key=permissionTargetCourseIdKey),
                 )
 
-        if targetCourseId in availableCoursesIds:
-            return True
-
-        return False
+        return targetCourseId in availableCoursesIds
 
     # User Profile Access
 

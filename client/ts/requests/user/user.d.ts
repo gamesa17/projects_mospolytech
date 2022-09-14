@@ -1,4 +1,4 @@
-import { User } from "@ts/types";
+import { ShortUserDto, User } from "@ts/types";
 
 export type GetUserInput = undefined;
 
@@ -22,3 +22,9 @@ export type GetUsersInput = {
 };
 
 export type GetUsersResponse = User[];
+
+export type GetSearchUsersInput = {
+  search?: string;
+};
+
+export type GetSearchUsersResponse = ShortUserDto[];

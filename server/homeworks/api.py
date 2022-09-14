@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 
 from courses.models import Course
 from homeworks.models import Homework
-from homeworks.serializers import HomeworkDtoSerializer, AddHomeworkSerializer, UpdateHomeworkSerializer
-from permissions.models import Permission
+from homeworks.serializers import AddHomeworkSerializer, HomeworkDtoSerializer, UpdateHomeworkSerializer  # noqa I001
+from permissions.models import Permission  # noqa I005
 
 
 class HomeworksAPI(APIView):
@@ -34,14 +34,14 @@ class HomeworksAPI(APIView):
             if not Permission.CanCreateHomeworkSpecificCourses(user=request.user, targetCourseId=request.data.course):
                 return Permission.GetNoPermissionResponse()
 
-            homework = AddHomeworkSerializer(data=request.data)
+            updatedHomework = AddHomeworkSerializer(data=request.data)
 
-            if not homework.is_valid():
-                Response(data={"error": str(homework.errors)}, status=status.HTTP_400_BAD_REQUEST)
+            if not updatedHomework.is_valid():
+                Response(data={"error": str(updatedHomework.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
-            homework.save()
+            updatedHomework.save()
 
-            return Response(homework.data, status=status.HTTP_201_CREATED)
+            return Response(updatedHomework.data, status=status.HTTP_201_CREATED)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -82,14 +82,14 @@ class HomeworkAPI(APIView):
             if not Permission.CanUpdateHomeworkSpecificCourses(user=request.user, targetCourseId=homework.course.id):
                 return Permission.GetNoPermissionResponse()
 
-            homework = UpdateHomeworkSerializer(instance=homework, data=request.data)
+            updatedHomework = UpdateHomeworkSerializer(instance=homework, data=request.data)
 
-            if not homework.is_valid():
-                Response(data={"error": str(homework.errors)}, status=status.HTTP_400_BAD_REQUEST)
+            if not updatedHomework.is_valid():
+                Response(data={"error": str(updatedHomework.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
-            homework.save()
+            updatedHomework.save()
 
-            return Response(homework.data, status=status.HTTP_200_OK)
+            return Response(updatedHomework.data, status=status.HTTP_200_OK)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

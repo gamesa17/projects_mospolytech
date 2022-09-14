@@ -6,7 +6,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ad423wlnu2qj=q(bc#69*1&!5xatj*h4*c^f9o3y661a3crx6t"  # noqa S105
+SECRET_KEY = "django-insecure-ad423wlnu2qj=q(bc#69*1&!5xatj*h4*c^f9o3y661a3crx6t"
 
 # SECURITY WARNING: don"t run with debug turned on in production!
 DEBUG = True
@@ -22,8 +22,8 @@ STATIC_URL = "static/"
 
 # Media files (Upload files)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -88,7 +88,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,

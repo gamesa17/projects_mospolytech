@@ -18,22 +18,18 @@ import {
   COURSE_MODAL_LOAD_STUDENTS_LIMIT,
 } from "./course-modal.constants";
 import { ListHeader, LoadMoreButton } from "./course-model.styles";
-import { CourseModalFormType, CourseModalProps, Student } from "./course-modal.types";
+import { CourseModalFormValues, CourseModalProps, Student } from "./course-modal.types";
 
 import { USERS } from "@client/mock/users";
 import { LEVELS } from "@client/mock/levels";
 import { COURSES } from "@client/mock/courses";
 import { LANGUAGES } from "@client/mock/languages";
 
-export const CourseModal: React.FC<CourseModalProps> = ({
-  course: { id, name, level, language, students: courseStudents = [] } = {},
-  isOpen,
-  onClose,
-}) => {
+export const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose, onSubmit }) => {
   const { t } = useCoursesTranslation();
   const { t: commonT } = useCommonTranslation();
 
-  const [form] = Form.useForm<CourseModalFormType>();
+  const [form] = Form.useForm<CourseModalFormValues>();
 
   const [levels, setLevels] = React.useState<Level[]>([]);
   const [students, setStudents] = React.useState<Student[]>([]);
@@ -41,7 +37,8 @@ export const CourseModal: React.FC<CourseModalProps> = ({
   const [studentsSkip, setStudentsSkip] = React.useState<number>(0);
   const [loadedStudents, setLoadedStudents] = React.useState<number>(0);
 
-  const maxStudents = courseStudents.length;
+  const isEditMode = !!course;
+  const maxStudents = course?.students.length || 0;
 
   React.useEffect(() => {
     if (process.env.USE_MOCKS) {
@@ -57,40 +54,40 @@ export const CourseModal: React.FC<CourseModalProps> = ({
   }, []);
 
   React.useEffect(() => {
-    if (id === undefined) {
+    if (!course) {
       return;
     }
 
     if (process.env.USE_MOCKS) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const course = Object.values(COURSES).find(({ id: courseId }) => courseId === id)!;
+      const currentCourse = Object.values(COURSES).find(({ id: courseId }) => courseId === course.id)!;
 
-      const courseStudents = Object.values(USERS).filter(({ id: userId }) => course.students.includes(userId));
+      const courseStudents = Object.values(USERS).filter(({ id: userId }) => currentCourse.students.includes(userId));
 
       Request.mock
         ?.onGet(/^\/users/)
         .reply(StatusCodes.OK, courseStudents.slice(0, Math.min(maxStudents, COURSE_MODAL_LOAD_STUDENTS_LIMIT)));
     }
 
-    getStudents(id, studentsSkip, COURSE_MODAL_LOAD_STUDENTS_LIMIT).then(({ data }) => {
+    getStudents(course.id, studentsSkip, COURSE_MODAL_LOAD_STUDENTS_LIMIT).then(({ data }) => {
       setStudents((prevStudents) => [...prevStudents, ...data]);
       setLoadedStudents((prevLoaded) => prevLoaded + data.length);
     });
-  }, [id, maxStudents, studentsSkip]);
+  }, [course, maxStudents, studentsSkip]);
 
   React.useEffect(() => {
     form.resetFields();
     setStudents([]);
     setStudentsSkip(0);
     setLoadedStudents(0);
-  }, [isOpen, id, form]);
+  }, [isOpen, course, form]);
 
-  const removeStudent = React.useCallback(
-    (studentId: number) => setStudents((prevStudents) => prevStudents.filter((student) => student.id !== studentId)),
+  const loadMoreStudents = React.useCallback(
+    () => setStudentsSkip((prevSkip) => prevSkip + COURSE_MODAL_LOAD_STUDENTS_LIMIT),
     []
   );
 
-  const addStudent = React.useCallback(
+  const handleAddNewStudent = React.useCallback(
     () =>
       setStudents((prevStudents) => {
         const lastStudent = prevStudents[prevStudents.length - 1];
@@ -101,14 +98,74 @@ export const CourseModal: React.FC<CourseModalProps> = ({
     []
   );
 
-  const loadMoreStudents = React.useCallback(
-    () => setStudentsSkip((prevSkip) => prevSkip + COURSE_MODAL_LOAD_STUDENTS_LIMIT),
+  const handleRemoveNewStudent = React.useCallback(
+    () => setStudents((prevStudents) => prevStudents.filter((student) => !student.new)),
     []
+  );
+
+  const handleRemoveStudent = React.useCallback(
+    (deleteStudentId: number) => {
+      if (!course) {
+        return;
+      }
+
+      const newStudent = students.find((student) => student.id === deleteStudentId);
+
+      if (!newStudent) {
+        return;
+      }
+
+      if (!newStudent.new) {
+        const newStudents = course.students.filter((studentId) => studentId !== deleteStudentId);
+
+        onSubmit &&
+          onSubmit({
+            name: course.name,
+            level: course.level.id,
+            language: course.language.id,
+            students: newStudents,
+          });
+      }
+
+      setStudents((prevStudents) => prevStudents.filter((student) => student.id !== deleteStudentId));
+    },
+    [course, students, onSubmit]
+  );
+
+  const handleAddStudent = React.useCallback(
+    (newStudentId: number) => {
+      if (!course) {
+        return;
+      }
+
+      const newStudents = [...course.students, newStudentId];
+
+      onSubmit &&
+        onSubmit({
+          name: course.name,
+          level: course.level.id,
+          language: course.language.id,
+          students: newStudents,
+        });
+
+      handleRemoveNewStudent();
+    },
+    [course, onSubmit, handleRemoveNewStudent]
+  );
+
+  const handleFinishForm = React.useCallback(
+    (values: CourseModalFormValues) => {
+      onSubmit && onSubmit({ ...values, students: students.map(({ id }) => id) });
+      onClose();
+    },
+    [students, onSubmit, onClose]
   );
 
   return (
     <Modal
       visible={isOpen}
+      okText={commonT("OK")}
+      cancelText={commonT("CANCEL")}
       title={t("OPEN_COURSE_MODAL_BUTTON")}
       okButtonProps={COURSE_MODAL_CONFIRM_PROPS}
       onCancel={onClose}
@@ -118,8 +175,8 @@ export const CourseModal: React.FC<CourseModalProps> = ({
         form={form}
         labelCol={{ span: 5 }}
         wrapperCol={{ span: 20 }}
-        initialValues={{ name, level: level?.id, language: language?.id }}
-        onFinish={console.log}
+        initialValues={{ name: course?.name, level: course?.level.id, language: course?.language.id }}
+        onFinish={handleFinishForm}
       >
         <Form.Item
           label={t("COURSES_MODAL_FIELDS.NAME.LABEL")}
@@ -144,9 +201,9 @@ export const CourseModal: React.FC<CourseModalProps> = ({
           ]}
         >
           <Select showSearch placeholder={t("COURSES_MODAL_FIELDS.LEVEL.PLACEHOLDER")} optionFilterProp="children">
-            {levels.map(({ id, name }) => (
-              <Select.Option key={name} value={id}>
-                {t(`LEVELS.${name.replaceAll(" ", "_").toLocaleUpperCase()}`)}
+            {levels.map((level) => (
+              <Select.Option key={level.id} value={level.id}>
+                {t(`LEVELS.${level.name.replaceAll(" ", "_").toLocaleUpperCase()}`)}
               </Select.Option>
             ))}
           </Select>
@@ -162,37 +219,45 @@ export const CourseModal: React.FC<CourseModalProps> = ({
           ]}
         >
           <Select showSearch placeholder={t("COURSES_MODAL_FIELDS.LANGUAGE.PLACEHOLDER")} optionFilterProp="children">
-            {languages.map(({ id, name }) => (
-              <Select.Option key={name} value={id}>
-                {t(`LANGUAGES.${name.toLocaleUpperCase()}`)}
+            {languages.map((language) => (
+              <Select.Option key={language.id} value={language.id}>
+                {t(`LANGUAGES.${language.name.toLocaleUpperCase()}`)}
               </Select.Option>
             ))}
           </Select>
         </Form.Item>
       </Form>
-      <List
-        itemLayout="horizontal"
-        dataSource={students}
-        locale={{
-          emptyText: commonT("NO_DATA"),
-        }}
-        header={
-          <ListHeader>
-            <Typography.Title level={5}>{t("STUDENTS")}</Typography.Title>
-            {!students[0]?.new && <Button type="primary" icon={<PlusOutlined />} onClick={addStudent} />}
-          </ListHeader>
-        }
-        loadMore={
-          loadedStudents < maxStudents && (
-            <LoadMoreButton onClick={loadMoreStudents}>
-              {commonT("SHOW_MORE", { more: maxStudents - loadedStudents })}
-            </LoadMoreButton>
-          )
-        }
-        renderItem={(student) => (
-          <StudentInfo student={student} removeStudent={removeStudent} setStudents={setStudents} />
-        )}
-      />
+      {isEditMode && (
+        <List
+          itemLayout="horizontal"
+          dataSource={students}
+          locale={{
+            emptyText: commonT("NO_DATA"),
+          }}
+          header={
+            <ListHeader>
+              <Typography.Title level={5}>{t("STUDENTS")}</Typography.Title>
+              {!students[0]?.new && <Button type="primary" icon={<PlusOutlined />} onClick={handleAddNewStudent} />}
+            </ListHeader>
+          }
+          loadMore={
+            loadedStudents < maxStudents && (
+              <LoadMoreButton onClick={loadMoreStudents}>
+                {commonT("SHOW_MORE", { more: maxStudents - loadedStudents })}
+              </LoadMoreButton>
+            )
+          }
+          renderItem={(student) => (
+            <StudentInfo
+              student={student}
+              students={students}
+              setStudents={setStudents}
+              onAddStudent={handleAddStudent}
+              onRemoveStudent={handleRemoveStudent}
+            />
+          )}
+        />
+      )}
     </Modal>
   );
 };

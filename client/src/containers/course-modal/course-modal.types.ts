@@ -4,14 +4,16 @@ export type CourseModalProps = {
   course?: CourseDto;
   isOpen: boolean;
   onClose: () => void;
+  onSubmit?: (values: CourseModalFormValues) => void;
 };
 
 export interface Student extends User {
   new?: boolean;
 }
 
-export type CourseModalFormType = {
+export type CourseModalFormValues = {
   name: string;
-  level: string;
-  language: string;
+  level: number;
+  language: number;
+  students: number[];
 };

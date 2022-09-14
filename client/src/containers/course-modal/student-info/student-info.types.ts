@@ -3,6 +3,8 @@ import { Student } from "@containers/course-modal/course-modal.types";
 
 export type StudentInfoProps = {
   student: Student;
-  removeStudent: (studentId: number) => void;
+  students: Student[];
+  onAddStudent: (studentId: number) => void;
+  onRemoveStudent: (studentId: number) => void;
   setStudents: Dispatch<SetStateAction<Student[]>>;
 };

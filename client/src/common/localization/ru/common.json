@@ -1,7 +1,9 @@
 {
   "404": "404",
   "ARE_YOU_SURE_YOU_WANT_TO_DELETE_COURSE": "Вы точно хотите удалить курс {{name}}?",
+  "ARE_YOU_SURE_YOU_WANT_TO_DELETE_STUDENT": "Вы точно хотите удалить ученика {{name}}?",
   "ADD": "Добавить",
+  "CANCEL": "Отменить",
   "DELETE": "Удалить",
   "DONE": "Выполнено",
   "EDIT": "Редактировать",
@@ -14,8 +16,10 @@
   "NO": "Нет",
   "NOT_DONE": "Не выполнено",
   "NO_DATA": "Нет данных",
+  "OK": "Ок",
   "PHONE": "Телефон",
   "SAVE": "Сохранить",
+  "SEARCH_A_STUDENT": "Найти студента",
   "SHOW_ALL": "Показать всё",
   "SHOW_MORE": "Показать ещё({{more}})",
   "TABLE": {

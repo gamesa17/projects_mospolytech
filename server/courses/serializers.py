@@ -15,20 +15,12 @@ class CourseDtoSerializer(serializers.ModelSerializer):
 
 
 class AddCourseSerializer(serializers.ModelSerializer):
-    level = serializers.IntegerField(source="levelId")
-    language = serializers.IntegerField(source="languageId")
-    teacher = serializers.IntegerField(source="teacherId")
-
     class Meta:
         model = Course
         fields = ("name", "language", "level", "teacher")
 
 
 class UpdateCourseSerializer(serializers.ModelSerializer):
-    level = serializers.IntegerField(source="levelId")
-    language = serializers.IntegerField(source="languageId")
-    teacher = serializers.IntegerField(source="teacherId")
-
     class Meta:
         model = Course
         fields = "__all__"
