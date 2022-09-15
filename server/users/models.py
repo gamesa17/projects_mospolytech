@@ -27,7 +27,7 @@ class User(AbstractUser):
     phone = models.CharField(verbose_name="Телефон", max_length=20, default="")
 
     # UserRole.TEACHER specific
-    languages = models.ManyToManyField(verbose_name="Язык", to=Language, blank=True)
+    languages = models.ManyToManyField(verbose_name="Языки", to=Language, blank=True)
 
     def __str__(self):
         return f"[ID={self.pk}] {self.username}"

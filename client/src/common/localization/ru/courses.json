@@ -20,6 +20,7 @@
   "LEVELS": {
     "ADVANCED": "C1 Продвинутый",
     "BEGINNER": "A0-A1 Начальный",
+    "ELEMENTARY": "A2 Начальный",
     "INTERMEDIATE": "B1 Средний",
     "PRE_INTERMEDIATE": "A2 Ниже Средний",
     "PROFICIENT": "C2 Опытный",

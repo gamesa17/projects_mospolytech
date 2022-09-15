@@ -64,6 +64,8 @@ class UserAPI(APIView):
             if not updatedUser.is_valid():
                 return Response(data={"error": str(updatedUser.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
+            updatedUser.save()
+
             return Response(data=updatedUser.data, status=status.HTTP_200_OK)
 
         except Exception as error:
