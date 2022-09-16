@@ -41,6 +41,10 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClos
   const maxStudents = course?.students.length || 0;
 
   React.useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
     if (process.env.USE_MOCKS) {
       Request.mock
         ?.onGet("/levels")
@@ -51,7 +55,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClos
 
     getLevels().then((response) => setLevels(response.data));
     getLanguages().then((response) => setLanguages(response.data));
-  }, []);
+  }, [isOpen]);
 
   React.useEffect(() => {
     if (!course) {
@@ -166,7 +170,7 @@ export const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClos
       visible={isOpen}
       okText={commonT("OK")}
       cancelText={commonT("CANCEL")}
-      title={t("OPEN_COURSE_MODAL_BUTTON")}
+      title={t("COURSE_MODAL_TITLE")}
       okButtonProps={COURSE_MODAL_CONFIRM_PROPS}
       onCancel={onClose}
     >

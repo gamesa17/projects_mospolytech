@@ -1,5 +1,5 @@
-import { Homework } from "@ts/types";
+import { HomeworkDto } from "@ts/types";
 
 export type CalendarCellProps = {
-  homework: Homework[];
+  homework: HomeworkDto[];
 };

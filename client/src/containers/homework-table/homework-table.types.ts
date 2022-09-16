@@ -1,12 +1,14 @@
 import { CalendarMode } from "antd/lib/calendar/generateCalendar";
-import { Homework } from "@ts/types";
+import { HomeworkDto, ModelId } from "@ts/types";
 
 export type HomeworkTableProps = {
-  homework: Homework[];
+  homework: HomeworkDto[];
   calendarDate: moment.Moment;
   calendarMode: CalendarMode;
+  onEditHomework?: (homeworkId: ModelId) => void;
+  onDeleteHomework?: (homeworkId: ModelId) => void;
 };
 
-export type TableHomework = Homework & {
+export type TableHomework = HomeworkDto & {
   key: string;
 };

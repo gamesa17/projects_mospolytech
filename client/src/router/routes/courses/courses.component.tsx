@@ -20,7 +20,7 @@ import { CourseModal, CourseModalFormValues } from "@containers/course-modal";
 import { Footer } from "@components/footer";
 import { Content } from "@components/content";
 
-import { createCourse, deleteCourse, getCourses, updateCourse } from "./corses.resourses";
+import { createCourse, deleteCourse, getCourses, updateCourse } from "./corses.resources";
 import { AddCourseButton } from "./courses.styles";
 
 export const Courses: React.FC = () => {

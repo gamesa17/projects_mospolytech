@@ -1,7 +1,7 @@
-import { Course, CourseDto, Model } from "@ts/types";
+import { CourseDto, Model } from "@ts/types";
 
 export interface Homework extends Model {
-  course: Course;
+  course: ModelId;
 
   name: string;
   description?: string;

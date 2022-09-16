@@ -31,17 +31,21 @@ class HomeworksAPI(APIView):
     @staticmethod
     def post(request):
         try:
-            if not Permission.CanCreateHomeworkSpecificCourses(user=request.user, targetCourseId=request.data.course):
+            if not Permission.CanCreateHomeworkSpecificCourses(
+                user=request.user, targetCourseId=request.data["course"],
+            ):
                 return Permission.GetNoPermissionResponse()
 
-            updatedHomework = AddHomeworkSerializer(data=request.data)
+            createdHomework = AddHomeworkSerializer(data=request.data)
 
-            if not updatedHomework.is_valid():
-                Response(data={"error": str(updatedHomework.errors)}, status=status.HTTP_400_BAD_REQUEST)
+            if not createdHomework.is_valid():
+                Response(data={"error": str(createdHomework.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
-            updatedHomework.save()
+            createdHomework = createdHomework.save()
 
-            return Response(updatedHomework.data, status=status.HTTP_201_CREATED)
+            createdHomeworkDto = HomeworkDtoSerializer(instance=createdHomework)
+
+            return Response(createdHomeworkDto.data, status=status.HTTP_201_CREATED)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -87,9 +91,11 @@ class HomeworkAPI(APIView):
             if not updatedHomework.is_valid():
                 Response(data={"error": str(updatedHomework.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
-            updatedHomework.save()
+            updatedHomework = updatedHomework.save()
 
-            return Response(updatedHomework.data, status=status.HTTP_200_OK)
+            updatedHomeworkDto = HomeworkDtoSerializer(instance=updatedHomework)
+
+            return Response(updatedHomeworkDto.data, status=status.HTTP_200_OK)
 
         except Exception as error:
             return Response(data={"error": str(error)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -1,6 +1,7 @@
 {
   "404": "404",
   "ARE_YOU_SURE_YOU_WANT_TO_DELETE_COURSE": "Вы точно хотите удалить курс {{name}}?",
+  "ARE_YOU_SURE_YOU_WANT_TO_DELETE_HOMEWORK": "Вы точно хотите удалить домашнее задание {{name}}?",
   "ARE_YOU_SURE_YOU_WANT_TO_DELETE_STUDENT": "Вы точно хотите удалить ученика {{name}}?",
   "ADD": "Добавить",
   "CANCEL": "Отменить",

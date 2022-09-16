@@ -12,18 +12,26 @@ import { HomeworkTableWrapper } from "./homework-table.styles";
 import { HomeworkTableProps, TableHomework } from "./homework-table.types";
 
 // TODO: Добавить кнопку для создания д/з, если таблица пустая(только для учителя)
-const HomeworkTableRoot: React.FC<HomeworkTableProps> = ({ homework, calendarDate, calendarMode }) => {
+const HomeworkTableRoot: React.FC<HomeworkTableProps> = ({
+  homework,
+  calendarDate,
+  calendarMode,
+  onEditHomework,
+  onDeleteHomework,
+}) => {
   const { t } = useCommonTranslation();
 
-  const onEditHomework = React.useCallback((hw: Homework) => {
-    console.log("🚀 ~ file: homework-table.component.tsx ~ line 11 ~ onEditHomework ", hw);
-  }, []);
+  const handleEditHomework = React.useCallback(
+    (hw: Homework) => onEditHomework && onEditHomework(hw.id),
+    [onEditHomework]
+  );
 
-  const onDeleteHomework = React.useCallback((hw: Homework) => {
-    console.log("🚀 ~ file: homework-table.component.tsx ~ line 15 ~ onDeleteHomework", hw);
-  }, []);
+  const handleDeleteHomework = React.useCallback(
+    (hw: Homework) => onDeleteHomework && onDeleteHomework(hw.id),
+    [onDeleteHomework]
+  );
 
-  const columns = useHomeworkTableColumns(onEditHomework, onDeleteHomework);
+  const columns = useHomeworkTableColumns(handleEditHomework, handleDeleteHomework);
 
   const tableData = React.useMemo(() => {
     const data = homework

@@ -18,7 +18,7 @@ class Homework(models.Model):
     isOnEveryLesson = models.BooleanField(verbose_name="Длительное", default=False)
 
     createdAt = models.DateTimeField(verbose_name="Дата создания", default=now)
-    deadlineAt = models.DateTimeField(verbose_name="Дата дедлайна")
+    deadlineAt = models.DateTimeField(verbose_name="Дата дедлайна", null=True, blank=True)
 
     def __str__(self):
         return f"[ID={self.pk}] {self.name} for course({self.course})"

@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, Select } from "antd";
+import { Button, Popconfirm, Select } from "antd";
 import { useCommonTranslation } from "@localization";
 import { HomeworkActionsWrapper } from "./homework-actions.styles";
 import { HomeworkActionsProps } from "./homework-actions.types";
 
 const HomeworkActionsRoot: React.FC<HomeworkActionsProps> = ({
+  name,
   canEdit,
   canDelete,
   canUpdateDoneStatus,
@@ -32,9 +33,21 @@ const HomeworkActionsRoot: React.FC<HomeworkActionsProps> = ({
         </Button>
       )}
       {canDelete && (
-        <Button danger type="text" onClick={onDelete}>
-          {t("DELETE")}
-        </Button>
+        <Popconfirm
+          key="delete"
+          placement="top"
+          okText={t("DELETE")}
+          cancelText={t("NO")}
+          title={t("ARE_YOU_SURE_YOU_WANT_TO_DELETE_HOMEWORK", { name })}
+          okButtonProps={{
+            danger: true,
+          }}
+          onConfirm={onDelete}
+        >
+          <Button danger type="text">
+            {t("DELETE")}
+          </Button>
+        </Popconfirm>
       )}
     </HomeworkActionsWrapper>
   );

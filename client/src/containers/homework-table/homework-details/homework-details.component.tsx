@@ -2,11 +2,11 @@ import React from "react";
 import sanitize from "sanitize-html";
 import { Typography } from "antd";
 
-import { Homework } from "@ts/types";
+import { HomeworkDto } from "@ts/types";
 
 import { HomeworkDetailsLinks, HomeworkDetailsWrapper } from "./homework-details.styles";
 
-const HomeworkDetailsRoot: React.FC<Homework> = ({ name, description, link }) => (
+const HomeworkDetailsRoot: React.FC<HomeworkDto> = ({ name, description, link }) => (
   <HomeworkDetailsWrapper>
     <Typography.Title level={3}>{name}</Typography.Title>
     {description && (

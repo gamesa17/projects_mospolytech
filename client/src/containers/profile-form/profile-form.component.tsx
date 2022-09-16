@@ -2,11 +2,13 @@ import React from "react";
 import InputMask from "react-input-mask";
 import { Form, Button, Input } from "antd";
 
-import { ProfileFormProps } from "./profile-form.types";
 import { useCommonTranslation } from "@localization";
-import { ProfileFormWrapper } from "./profile-form.styles";
+
 import { useSelector } from "@client/store";
 import { selectCapabilities } from "@client/store/permissions";
+
+import { ProfileFormProps } from "./profile-form.types";
+import { ProfileFormWrapper } from "./profile-form.styles";
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ initialValues = {}, onSubmit }) => {
   const { t } = useCommonTranslation();

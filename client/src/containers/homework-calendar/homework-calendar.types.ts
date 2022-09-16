@@ -1,9 +1,9 @@
 import React from "react";
 import { CalendarMode } from "antd/lib/calendar/generateCalendar";
-import { Homework } from "@ts/types";
+import { HomeworkDto } from "@ts/types";
 
 export type HomeworkCalendarProps = {
-  homeworks: Homework[];
+  homeworks: HomeworkDto[];
   date: moment.Moment;
   calendarMode: CalendarMode;
   onDateChange: React.Dispatch<React.SetStateAction<moment.Moment>>;
