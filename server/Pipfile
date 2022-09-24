@@ -9,6 +9,7 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
 wemake-python-styleguide = "*"
+dotenv-cli = "*"
 
 [dev-packages]
 
@@ -17,5 +18,5 @@ python_version = "3.10"
 
 [scripts]
 init = "pipenv install"
-dev = "dotenv -e ../.env -- bash -c 'python manage.py runserver $SERVER_PORT'"
+dev = "dotenv -e ../.env python manage.py runserver"
 lint = "flake8 ."
