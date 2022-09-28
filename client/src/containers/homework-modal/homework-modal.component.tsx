@@ -113,7 +113,7 @@ export const HomeworkModal: React.FC<HomeworkModalProps> = ({ homework, isOpen, 
           <DatePicker showTime placeholder={t("HOMEWORK_MODAL_FIELDS.DEADLINE.PLACEHOLDER")} />
         </Form.Item>
         <Form.Item name="description" label={t("HOMEWORK_MODAL_FIELDS.DESCRIPTION.LABEL")}>
-          <Input multiple placeholder={t("HOMEWORK_MODAL_FIELDS.DESCRIPTION.PLACEHOLDER")} />
+          <Input.TextArea rows={5} placeholder={t("HOMEWORK_MODAL_FIELDS.DESCRIPTION.PLACEHOLDER")} />
         </Form.Item>
         <Form.Item
           name="link"
