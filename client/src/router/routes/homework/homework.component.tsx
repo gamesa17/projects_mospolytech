@@ -111,8 +111,6 @@ export const Homework: React.FC = () => {
     [modalHomework, isModalEditMode, handleEditHomework, handleCreateHomework]
   );
 
-  console.log(homeworks);
-
   return (
     <Layout>
       <Header>
